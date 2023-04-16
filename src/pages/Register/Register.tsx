@@ -51,10 +51,10 @@ function Register() {
 
   return (
     <div className='bg-login '>
-      <div className='max-w-7xl mx-auto px-4'>
-        <div className='bg-bg-login bg-no-repeat bg-contain bg-center  grid grid-cols-1 lg:grid-cols-5 py-12 lg:py-32 lg:pr-10'>
+      <div className='mx-auto max-w-7xl px-4'>
+        <div className='grid grid-cols-1 bg-bg-login bg-contain  bg-center bg-no-repeat py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form className='p-10 rounded bg-white shadow-xl' onSubmit={onSubmit}>
+            <form className='rounded bg-white p-10 shadow-xl' onSubmit={onSubmit}>
               <div className='text-2xl'>Đăng Ký</div>
               <Input
                 type='text'
@@ -100,7 +100,7 @@ function Register() {
               <div className='mt-2'>
                 <Button
                   type='submit'
-                  className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex justify-center items-center'
+                  className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'
                   isLoading={registerAccountMutation.isLoading}
                   disabled={registerAccountMutation.isLoading}
                 >
@@ -110,7 +110,7 @@ function Register() {
               <div className='mt-8 text-center'>
                 <div className='flex items-center justify-center'>
                   <span className='text-slate-300'>Bạn đã có tài khoản</span>
-                  <Link className='text-red-400 ml-2' to='/login'>
+                  <Link className='ml-2 text-red-400' to='/login'>
                     Đăng Nhập
                   </Link>
                 </div>

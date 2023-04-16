@@ -11,25 +11,26 @@ class Http {
 
     this.instance = axios.create({
       baseURL: 'http://localhost:8080/api/v1',
-      timeout: 5000
-      // headers: {
-      //   'Content-Type': 'application/json',
-      //   'Access-Control-Allow-Origin': '*'
-      // }
+      timeout: 5000,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
     })
     const accessToken = this.AcessToken
     console.log(accessToken)
+    console.log(this.AcessToken)
     this.instance.interceptors.request.use(
       (config) => {
         if (accessToken) {
-          config.headers['Authorization'] = `Bearer ${accessToken}`
+          config.headers.authorization = this.AcessToken
         }
         if (config.url === '/auth/FileUpload') {
           config.headers['Content-Type'] = 'multipart/form-data'
           console.log(config)
         }
         if (config.url === '/Products/add') {
-          console.log(config)
+          console.log(accessToken)
         }
 
         return config

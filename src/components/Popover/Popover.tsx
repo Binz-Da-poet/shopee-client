@@ -49,7 +49,7 @@ const Popover = ({ children, renderPopover, className, placement = 'bottom-end' 
             >
               <span
                 ref={arrowRef}
-                className='border-x-transparent border-t-transparent border-b-white border-[11px] -translate-y-[96%] absolute'
+                className='absolute -translate-y-[96%] border-[11px] border-x-transparent border-t-transparent border-b-white'
                 style={{
                   left: middlewareData.arrow?.x,
                   top: middlewareData.arrow?.y,

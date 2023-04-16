@@ -7,7 +7,7 @@ const URL = '/Products'
 const productApi = {
   addProductApi: (body: Product) => http.post<ProductResponse>(`${URL}/add`, body),
 
-  addImageApi: (body: FormData) => http.post<ImageResponse>('/auth/FileUpload', body),
+  addImageApi: (body: FormData) => http.post<ImageResponse>('/FileUpload', body),
   getAllProduct(params: ProductListConfig) {
     return http.get<ResProductPageApi>(URL, { params })
   },

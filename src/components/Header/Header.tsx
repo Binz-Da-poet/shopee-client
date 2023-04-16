@@ -64,7 +64,7 @@ function Header() {
                     </button>
                     {isAdminRole ? (
                       <button className='mt-2 py-2 px-3 hover:bg-slate-50 hover:text-orange'>
-                        <NavLink to='/add'>Add product</NavLink>
+                        <link href='/add'>Add product</link>
                       </button>
                     ) : (
                       <></>
