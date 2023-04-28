@@ -6,9 +6,7 @@ import './index.css'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { AppProvider } from './contexts/app.context'
-import axios from 'axios'
 
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

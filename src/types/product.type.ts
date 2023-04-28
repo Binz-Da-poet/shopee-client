@@ -1,3 +1,5 @@
+import { Category } from './category.type'
+
 export interface Product {
   id: number
   imageName: string
@@ -8,11 +10,8 @@ export interface Product {
   sold: number
   quantity: number
   view: number
-
   description: string
-  category: {
-    id: number | null
-  }
+  category?: Category
 }
 
 export interface ProductList {
@@ -29,11 +28,11 @@ export interface ProductListConfig {
   sort_by?: 'createdAt' | 'view' | 'sold' | 'price'
   order?: 'asc' | 'desc'
   exclude?: string
-  rating_filter?: number
+  rating?: number
   price_max?: number
   price_min?: number
   name?: string
-  category?: string
+  categoryId?: number
 }
 
 export interface Addproduct {

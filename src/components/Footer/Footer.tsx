@@ -1,8 +1,8 @@
 function Footer() {
   return (
-    <footer className='py-16 bg-neutral-100'>
-      <div className='max-w-7xl mx-auto px-4'>
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-4 text-sm'>
+    <footer className='bg-neutral-100 py-16'>
+      <div className='mx-auto max-w-7xl px-4'>
+        <div className='grid grid-cols-1 gap-4 text-sm lg:grid-cols-3'>
           <div className='lg:col-span-1'>
             <div>© 2023 Shopee. Tất cả các quyền được bảo lưu.</div>
           </div>
@@ -13,14 +13,14 @@ function Footer() {
             </div>
           </div>
         </div>
-        <div className='grid grid-cols-2 lg:grid-cols-4  mt-16 text-xs font-light px-36 '>
+        <div className='mt-16 grid grid-cols-2  px-36 text-xs font-light lg:grid-cols-4 '>
           <div className='lg:col-span-1'>CHÍNH SÁCH BẢO MẬT</div>
           <div className='lg:col-span-1'>QUY CHẾ HOẠT ĐỘNG</div>
           <div className='lg:col-span-1'>CHÍNH SÁCH VẬN CHUYỂN</div>
           <div className='lg:col-span-1'>CHÍNH SÁCH TRẢ HÀNG VÀ HOÀN TIỀN</div>
         </div>
 
-        <div className='text-center text-sm mt-10'>
+        <div className='mt-10 text-center text-sm'>
           <div>Công ty TNHH Shopee</div>
           <div className='mt-4 text-xs'>
             Địa chỉ: Tầng 4-5-6, Tòa nhà Capital Place, số 29 đường Liễu Giai, Phường Ngọc Khánh, Quận Ba Đình, Thành

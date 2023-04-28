@@ -16,9 +16,9 @@ const useQueryConfig = () => {
       name: queryParams.name,
       price_min: queryParams.price_min,
       price_max: queryParams.price_max,
-      rating_filter: queryParams.rating_filter,
+      rating: queryParams.rating,
       sort_by: queryParams.sort_by,
-      category: queryParams.category
+      categoryId: queryParams.categoryId
     },
     isUndefined
   )

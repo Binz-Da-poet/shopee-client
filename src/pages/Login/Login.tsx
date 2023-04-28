@@ -35,7 +35,7 @@ function Login() {
       onSuccess: (data) => {
         setIsAuthenticated(true)
         setProfile(data.data.user)
-        if (data.data.user.role === 'ADMIN') {
+        if (data.data.user.role === 'ROLE_ADMIN') {
           setIsAdminRole(true)
         } else {
           setIsAdminRole(false)
@@ -45,7 +45,6 @@ function Login() {
       onError: (error) => {
         if (isAxiosUnprocessableEntityError(error)) {
           const formError = error.response?.data as ErrorResponseForm
-          console.log(formError)
           if (formError) {
             setError('email', {
               message: formError.message,

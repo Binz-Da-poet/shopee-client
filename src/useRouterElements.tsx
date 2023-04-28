@@ -6,10 +6,15 @@ import Register from './pages/Register/Register'
 import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
 import RegisterLayout from './layouts/RegisterLayout/RegisterLayout'
-import Profile from './pages/Profile'
-import path from './constants/path'
-import AddProduct from './pages/addproduct'
+import AddProduct from './pages/AdminPage'
 import ProductDetail from './pages/ProductDetail/ProducDetail'
+import Cart from './pages/Cart'
+import { path } from './constants/path'
+import CartLayout from './layouts/CartLayout/CartLayout'
+import UserLayout from './pages/User/UserLayout'
+import ChangePassword from './pages/User/Pages/ChangePassWord'
+import Profile from './pages/User/Pages/Profile'
+import HistoryPuchases from './pages/User/Pages/HistoryPurchases'
 function AdminRoute() {
   const { isAdminRole } = useContext(AppContext)
   return isAdminRole ? <Outlet /> : <Navigate to='/' />
@@ -26,15 +31,6 @@ function RejectedRoute() {
 
 const useRouteElements = () => {
   const routeElements = useRoutes([
-    {
-      path: '/productDetail',
-
-      element: (
-        <MainLayout>
-          <ProductDetail />
-        </MainLayout>
-      )
-    },
     {
       path: '',
       element: <AdminRoute />,
@@ -80,8 +76,46 @@ const useRouteElements = () => {
           path: path.profile,
           element: (
             <MainLayout>
-              <Profile />
+              <UserLayout>
+                <Profile />
+              </UserLayout>
             </MainLayout>
+          )
+        },
+        {
+          path: path.ChangePassWord,
+          element: (
+            <MainLayout>
+              <UserLayout>
+                <ChangePassword />
+              </UserLayout>
+            </MainLayout>
+          )
+        },
+        {
+          path: path.historyPuchases,
+          element: (
+            <MainLayout>
+              <UserLayout>
+                <HistoryPuchases />
+              </UserLayout>
+            </MainLayout>
+          )
+        },
+        {
+          path: path.Cart,
+          element: (
+            <CartLayout>
+              <Cart />
+            </CartLayout>
+          )
+        },
+        {
+          path: path.profile,
+          element: (
+            <CartLayout>
+              <Cart />
+            </CartLayout>
           )
         }
       ]
@@ -92,6 +126,14 @@ const useRouteElements = () => {
       element: (
         <MainLayout>
           <ProductList />
+        </MainLayout>
+      )
+    },
+    {
+      path: '/:nameId',
+      element: (
+        <MainLayout>
+          <ProductDetail />
         </MainLayout>
       )
     }

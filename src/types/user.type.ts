@@ -1,4 +1,6 @@
-export type Role = 'USER' | 'ADMIN'
+import { shoppingCart } from './shoppingCart.type'
+
+export type Role = 'ROLE_USER' | 'ROLE_ADMIN'
 export interface User {
   userId: number
   fullName: string
@@ -9,7 +11,7 @@ export interface User {
   password: string
   role: Role
   orders: []
-  shoppingCarts: []
+  shoppingCarts: [shoppingCart]
   enabled: true
   authorities: [
     {
@@ -20,4 +22,13 @@ export interface User {
   accountNonExpired: true
   credentialsNonExpired: true
   accountNonLocked: true
+}
+export interface UpdateUser {
+  fullName: string
+  avatar: string
+  address: string
+  phoneNumber: string
+  email: string
+  password: string
+  Image: FileList
 }

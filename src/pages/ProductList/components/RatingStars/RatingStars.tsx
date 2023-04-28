@@ -1,4 +1,21 @@
-function RatingStars() {
+import React from 'react'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import { QueryConfig } from 'src/hook/useQueryConfig'
+
+interface Props {
+  queryConfig: QueryConfig
+}
+const RatingStars = ({ queryConfig }: Props) => {
+  const navigate = useNavigate()
+  const handleFiterStar = (filterRating: number) => {
+    navigate({
+      pathname: '/',
+      search: createSearchParams({
+        ...queryConfig,
+        rating: String(filterRating)
+      }).toString()
+    })
+  }
   return (
     <ul className='my-3'>
       {Array(5)
@@ -6,13 +23,17 @@ function RatingStars() {
         .map((_, index) => {
           return (
             <li key={index} className='py-1 pl-2'>
-              <div className='flex items-center text-sm cursor-pointer' aria-hidden='true'>
+              <div
+                className='flex cursor-pointer items-center text-sm'
+                onClick={() => handleFiterStar(5 - index)}
+                aria-hidden='true'
+              >
                 {Array(5)
                   .fill(0)
                   .map((_, indexStar) => {
                     if (indexStar < 5 - index) {
                       return (
-                        <svg key={indexStar} viewBox='0 0 9.5 8' className='w-4 h-4 mr-1'>
+                        <svg key={indexStar} viewBox='0 0 9.5 8' className='mr-1 h-4 w-4'>
                           <defs>
                             <linearGradient id='ratingStarGradient' x1='50%' x2='50%' y1='0%' y2='100%'>
                               <stop offset={0} stopColor='#ffca11' />
@@ -40,7 +61,7 @@ function RatingStars() {
                       )
                     }
                     return (
-                      <svg key={indexStar} viewBox='0 0 30 30' className='w-4 h-4 mr-1'>
+                      <svg key={indexStar} viewBox='0 0 30 30' className='mr-1 h-4 w-4'>
                         <defs>
                           <linearGradient id='star__hollow' x1='50%' x2='50%' y1='0%' y2='99.0177926%'>
                             <stop offset='0%' stopColor='#FFD211' />

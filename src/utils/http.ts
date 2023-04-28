@@ -1,6 +1,8 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios'
 import { clearLS, getAccessTokenFromLS, setAccessTokenToLS, setProfileToLS } from './auth'
 import { AuthResponse } from 'src/types/auth.type'
+import { AUTHORIZED_URLS } from 'src/constants/path'
+import { toast } from 'react-toastify'
 
 class Http {
   instance: AxiosInstance
@@ -8,7 +10,6 @@ class Http {
 
   constructor() {
     this.AcessToken = getAccessTokenFromLS()
-
     this.instance = axios.create({
       baseURL: 'http://localhost:8080/api/v1',
       timeout: 5000,
@@ -17,26 +18,18 @@ class Http {
         'Access-Control-Allow-Origin': '*'
       }
     })
-    const accessToken = this.AcessToken
-    console.log(accessToken)
-    console.log(this.AcessToken)
     this.instance.interceptors.request.use(
       (config) => {
-        if (accessToken) {
-          config.headers.authorization = this.AcessToken
+        const accessToken = getAccessTokenFromLS()
+        config.headers.authorization = accessToken ? `Bearer ${accessToken}` : ''
+        config.headers['Content-Type'] = config.url === '/FileUpload' ? 'multipart/form-data' : 'application/json'
+        if (config != undefined && AUTHORIZED_URLS.includes(config.url as string)) {
+          config.headers.Authorization = `Bearer ${accessToken}`
         }
-        if (config.url === '/auth/FileUpload') {
-          config.headers['Content-Type'] = 'multipart/form-data'
-          console.log(config)
-        }
-        if (config.url === '/Products/add') {
-          console.log(accessToken)
-        }
-
         return config
       },
       (error) => {
-        Promise.reject(error)
+        return Promise.reject(error)
       }
     )
     this.instance.interceptors.response.use(
@@ -47,7 +40,6 @@ class Http {
           if (data.token) {
             this.AcessToken = data.token
           }
-          console.log(this.AcessToken)
           setAccessTokenToLS(this.AcessToken)
           setProfileToLS(data.user)
         } else if (url === '/logout') {
@@ -56,7 +48,16 @@ class Http {
         }
         return response
       },
-      (error) => {
+      function (error: AxiosError) {
+        if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
+          const data: any | undefined = error.response?.data
+
+          const message = data.message || error.request.status
+          toast.error(message === HttpStatusCode.Forbidden ? 'Token sai hoặc hết hạn' : data.message)
+        }
+        if (error.response?.status === HttpStatusCode.Forbidden) {
+          clearLS()
+        }
         return Promise.reject(error)
       }
     )

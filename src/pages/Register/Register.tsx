@@ -2,38 +2,45 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import authApi from 'src/apis/auth.api'
+import ShoppingCartApi from 'src/apis/shoppingCart.api'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import { AppContext } from 'src/contexts/app.context'
-
 import { ErrorResponseForm } from 'src/types/utils.type'
 import { schema, Schema } from 'src/utils/rule'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 type FormData = Schema
-
+const registerSchema = schema.pick(['email', 'password', 'fullName', 'address', 'phoneNumber'])
 function Register() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
-  const navigate = useNavigate()
   const {
     register,
     setError,
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(registerSchema)
   })
 
   const registerAccountMutation = useMutation({
     mutationFn: (body: FormData) => authApi.registerAccount(body)
   })
+  const shoppingCartMutation = useMutation({
+    mutationFn: (id: number) => ShoppingCartApi.createCart(id)
+  })
   const onSubmit = handleSubmit((data: FormData) => {
     registerAccountMutation.mutate(data, {
       onSuccess: (data) => {
-        setIsAuthenticated(true)
-        setProfile(data.data.user)
-        navigate('/')
+        shoppingCartMutation.mutate(data.data.user.userId, {
+          onSuccess: (dataCart) => {
+            console.log(dataCart)
+            console.log(data)
+            setIsAuthenticated(true)
+            setProfile(data.data.user)
+          }
+        })
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError(error)) {

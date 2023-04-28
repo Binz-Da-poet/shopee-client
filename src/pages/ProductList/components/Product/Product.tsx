@@ -1,22 +1,22 @@
 import { Link } from 'react-router-dom'
 
 import ProductRating from 'src/components/ProductRating'
+import { path } from 'src/constants/path'
+
 import { Product as ProductType } from 'src/types/product.type'
-import { formatCurrency, formatNumberToSocialStyle } from 'src/utils/utils'
+import { formatCurrency, formatNumberToSocialStyle, generateNameId } from 'src/utils/utils'
 
 interface Props {
   product: ProductType
 }
 
 function Product({ product }: Props) {
-  const URL = 'http://localhost:8080/uploads'
-
   return (
-    <Link to='/'>
+    <Link to={`/${generateNameId({ name: product.name, id: product.id })}`}>
       <div className='border-1 overflow-hidden rounded-sm border border-solid border-gray-300 bg-white shadow transition-transform duration-100 hover:translate-y-[-0.5rem] hover:border-orange hover:shadow-md'>
         <div className='relative w-full pt-[100%]'>
           <img
-            src={`${URL}/${product.imageName}`}
+            src={`${path.image}/${product.imageName}`}
             className='absolute top-0 left-0 h-full w-full bg-white object-cover'
             alt={product.name}
           />

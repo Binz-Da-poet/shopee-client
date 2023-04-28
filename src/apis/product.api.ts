@@ -11,7 +11,7 @@ const productApi = {
   getAllProduct(params: ProductListConfig) {
     return http.get<ResProductPageApi>(URL, { params })
   },
-  getDetailProduct(id: number) {
+  getDetailProduct(id: string) {
     return http.get<Product>(`${URL}/${id}`)
   },
   deleteProduct(id: number) {

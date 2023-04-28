@@ -6,6 +6,7 @@ import productApi from 'src/apis/product.api'
 import Pagination from 'src/components/Pagination'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { ProductListConfig } from 'src/types/product.type'
+import categoryApi from 'src/apis/category.api'
 
 function ProductList() {
   const queryConfig = useQueryConfig()
@@ -17,13 +18,20 @@ function ProductList() {
     keepPreviousData: true,
     staleTime: 3 * 60 * 1000
   })
-  console.log(data)
+  const { data: categoryData } = useQuery({
+    queryKey: ['category'],
+    queryFn: () => {
+      return categoryApi.getCategories()
+    },
+    keepPreviousData: true
+  })
+
   return (
     <div className='bg-gray-200 py-6'>
       <div className='container'>
         <div className='grid grid-cols-12 gap-6'>
           <div className='col-span-3'>
-            <AsideFilter />
+            <AsideFilter queryConfig={queryConfig} categories={categoryData?.data.data || []} />
           </div>
           <div className='col-span-9'>
             <SortProductList

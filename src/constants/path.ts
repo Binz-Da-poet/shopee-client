@@ -1,9 +1,23 @@
-const path = {
+export const path = {
   home: '/',
-  profile: '/profile',
+  profile: '/user/profile',
+  ChangePassWord: 'user/password',
   login: '/login',
   register: '/register',
   logout: '/logout',
-  addProduct: '/add'
+  addProduct: '/add',
+  productDetails: '/productDetail',
+  image: 'http://localhost:8080/uploads',
+  Cart: '/Cart',
+  historyPuchases: '/user/historyPurchases'
 } as const
-export default path
+export const AUTHORIZED_URLS = [
+  '/FileUpload',
+  '/Products/add',
+  '/shopping-carts/addShoppingCart',
+  '/shopping-carts/shoppingCart',
+  '/CartItem/add',
+  '/CartItem/deleteMany',
+  '/CartItem/delete',
+  '/User/me'
+]

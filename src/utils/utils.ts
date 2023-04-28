@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios'
-import { kMaxLength } from 'buffer'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -7,7 +6,7 @@ export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
 }
 
 export function isAxiosUnprocessableEntityError<FormError>(error: unknown): error is AxiosError<FormError> {
-  return isAxiosError(error) && error?.response?.status === 404
+  return isAxiosError(error) && (error?.response?.status === 401 || error?.response?.status === 422)
 }
 export function formatCurrency(currency: number) {
   return Intl.NumberFormat('de-DE').format(currency)
@@ -25,7 +24,7 @@ export const rateSale = (original: number, sale: number) => Math.round(((origina
 export const removeSpecialCharacter = (str: string) =>
   // eslint-disable-next-line no-useless-escape
   str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, '')
-export const generateNameId = ({ name, id }: { name: string; id: string }) => {
+export const generateNameId = ({ name, id }: { name: string; id: number }) => {
   return removeSpecialCharacter(name).replace(/\s/g, '-') + `-i,${id}`
 }
 export const getIdFromNameId = (nameId: string) => {

@@ -24,5 +24,8 @@ export interface ResProductPageApi {
 export interface SuccessResponse<Data> {
   message: string
   status: string
-  data: object
+  data: Data
+}
+export type NoUndefinedField<T> = {
+  [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>
 }
