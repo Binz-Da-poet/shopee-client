@@ -54,7 +54,7 @@ const Pagination = ({ queryConfig, pageSize }: Props) => {
         return (
           <Link
             to={{
-              pathname: '/',
+              pathname: '',
               search: createSearchParams({
                 ...queryConfig,
                 page: pageNumber.toString()
@@ -78,7 +78,7 @@ const Pagination = ({ queryConfig, pageSize }: Props) => {
       ) : (
         <Link
           to={{
-            pathname: '/',
+            pathname: '',
             search: createSearchParams({
               ...queryConfig,
               page: (page - 1).toString()
@@ -96,7 +96,7 @@ const Pagination = ({ queryConfig, pageSize }: Props) => {
       ) : (
         <Link
           to={{
-            pathname: '/',
+            pathname: '',
             search: createSearchParams({
               ...queryConfig,
               page: (page + 1).toString()

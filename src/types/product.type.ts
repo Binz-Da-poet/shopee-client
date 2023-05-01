@@ -21,6 +21,7 @@ export interface ProductList {
     pageSize: number
   }
   totalPages: number
+  totalElements: number
 }
 export interface ProductListConfig {
   page?: number

@@ -9,19 +9,20 @@ import noproduct from 'src/assets/no-product.png'
 import { CartItem } from 'src/types/CartItem.type'
 import { produce } from 'immer'
 import QuantityController from 'src/components/QuantityController'
-import { path } from 'src/constants/path'
+
 import { keyBy } from 'lodash'
+import { path } from 'src/constants/path'
 function Cart() {
   const { extendedPurCharses, setExtendedPurchases } = useContext(AppContext)
   const { profile, isAuthenticated } = useContext(AppContext)
   const ShoppingCartId = profile?.shoppingCarts[0].id
   const { data: dataShoppingCart, refetch } = useQuery({
     queryKey: ['shoppingCart', { status: 'In Cart' }],
-    queryFn: () => ShoppingCartApi.getShoppingCart(ShoppingCartId),
+    queryFn: () => ShoppingCartApi.getCartItemByStatus({ status: 1, shoppingCartId: ShoppingCartId }),
     enabled: isAuthenticated
   })
 
-  const ShoppingCartItems = dataShoppingCart?.data.cartItems
+  const ShoppingCartItems = dataShoppingCart?.data.data
   const isAllChecked = useMemo(() => extendedPurCharses.every((purchars) => purchars.checked), [extendedPurCharses])
   const CheckedPurchases = useMemo(
     () => extendedPurCharses.filter((purchases) => purchases.checked),
@@ -75,10 +76,12 @@ function Cart() {
       updatePurchaseMutation.mutate({
         productId: purchase.product.id,
         shoppingCartId: profile?.shoppingCarts[0].id,
-        quantity: value
+        quantity: value,
+        status: 1
       })
     }
   }
+
   const handleChangeQuantity = (purchaseIndex: number) => (value: number) => {
     setExtendedPurchases(
       produce((draft) => {
@@ -109,6 +112,21 @@ function Cart() {
     const purchaseIds = CheckedPurchases.map((purchase) => purchase.product.id)
     deleteManyPurchasesMutation.mutate({
       productIds: purchaseIds,
+      shoppingCartId: profile?.shoppingCarts[0].id,
+      status: 1
+    })
+  }
+  const updateStatusMutation = useMutation({
+    mutationFn: ShoppingCartApi.updateCartItemStatus,
+    onSuccess: () => {
+      refetch()
+    }
+  })
+  const handleBuyCartItems = () => {
+    const purchaseIds = CheckedPurchases.map((purchase) => purchase.product.id)
+    updateStatusMutation.mutate({
+      productIds: purchaseIds,
+      status: 2,
       shoppingCartId: profile?.shoppingCarts[0].id
     })
   }
@@ -293,9 +311,12 @@ function Cart() {
                     <div className='ml-6 text-orange'>₫{formatCurrency(totalCheckedPurchasesSavePrice)}</div>
                   </div>
                 </div>
-                <Button className='ml-4 mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600 sm:mt-0'>
+                <button
+                  onClick={handleBuyCartItems}
+                  className='ml-4 mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600 sm:mt-0'
+                >
                   Mua hàng
-                </Button>
+                </button>
               </div>
             </div>
           </Fragment>

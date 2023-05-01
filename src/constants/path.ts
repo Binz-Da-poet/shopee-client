@@ -9,7 +9,8 @@ export const path = {
   productDetails: '/productDetail',
   image: 'http://localhost:8080/uploads',
   Cart: '/Cart',
-  historyPuchases: '/user/historyPurchases'
+  historyPuchases: '/user/historyPurchases',
+  AdminProducts: 'AdminProducts'
 } as const
 export const AUTHORIZED_URLS = [
   '/FileUpload',

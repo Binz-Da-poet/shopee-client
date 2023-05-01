@@ -8,6 +8,7 @@ import defaultAvatar from 'src/assets/avatarDefault.png'
 import { clearLS } from 'src/utils/auth'
 import { useQueryClient } from 'react-query'
 import { path } from 'src/constants/path'
+
 const NavHeader = () => {
   const queryClient = useQueryClient()
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } = React.useContext(AppContext)
@@ -62,10 +63,16 @@ const NavHeader = () => {
           className='ml-6 flex cursor-pointer items-center py-1 hover:text-gray-300'
           renderPopover={
             <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
-              <Link to='/' className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'>
+              <Link
+                to={path.profile}
+                className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+              >
                 Tài khoản của bạn
               </Link>
-              <Link to='/' className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'>
+              <Link
+                to={path.historyPuchases}
+                className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+              >
                 Đơn mua
               </Link>
               <button

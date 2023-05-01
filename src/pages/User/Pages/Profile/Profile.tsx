@@ -16,8 +16,9 @@ import { useMutation, useQuery } from 'react-query'
 import productApi from 'src/apis/product.api'
 import { UpdateUser } from 'src/types/user.type'
 import defaultAvatar from 'src/assets/avatarDefault.png'
-import { path } from 'src/constants/path'
+
 import { setProfileToLS } from 'src/utils/auth'
+import { path } from 'src/constants/path'
 
 type FormDataUser = UpdateUser
 const profileSchema = UserSchema.pick(['fullName', 'address', 'avatar', 'phoneNumber'])

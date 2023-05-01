@@ -57,7 +57,7 @@ const UserSideNav = () => {
       <div className='m-7'>
         <NavLink
           to='/user/profile'
-          className={`flex items-center capitalize transition-colors ${
+          className={`my-4 flex items-center capitalize transition-colors ${
             activeLink === '/user/profile' ? 'text-orange' : 'text-gray-500'
           }`}
           onClick={() => handleClick('/user/profile')}
@@ -73,30 +73,34 @@ const UserSideNav = () => {
         </NavLink>
         <NavLink
           to='/user/password'
-          className={`flex items-center capitalize transition-colors ${
+          className={` my-4 flex items-center capitalize transition-colors ${
             activeLink === '/user/password' ? 'text-orange' : 'text-gray-500'
           }`}
           onClick={() => handleClick('/user/password')}
         >
-          <div className='mr-3 mt-5 mb-5 h-[22px] w-[22px]'>
-            <img
-              src='https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black-thumbnail.png'
-              alt=''
-              className='h-full w-full'
-            />
+          <div className='mr-3 h-[22px] w-[22px]'>
+            <svg
+              className='h-full w-full fill-violet-600'
+              xmlns='http://www.w3.org/2000/svg'
+              height='30'
+              viewBox='0 96 960 960'
+              width='48'
+            >
+              <path d='M280 816q-100 0-170-70T40 576q0-100 70-170t170-70q78 0 131.5 37.5T491 473h429v206H814v137H628V679H491q-26 62-79.5 99.5T280 816Zm0-60q71 0 116.5-47t53.5-90h242v137h62V619h106v-86H450q-8-43-53.5-90T280 396q-75 0-127.5 52.5T100 576q0 75 52.5 127.5T280 756Zm0-112q29 0 48.5-19.5T348 576q0-29-19.5-48.5T280 508q-29 0-48.5 19.5T212 576q0 29 19.5 48.5T280 644Zm0-68Z' />
+            </svg>
           </div>
           Đổi mật khẩu
         </NavLink>
         <NavLink
           to='/user/historyPurchases'
-          className={`flex items-center capitalize transition-colors ${
+          className={`my-4 flex items-center capitalize  transition-colors ${
             activeLink === '/user/historyPurchases' ? 'text-orange' : 'text-gray-500'
           }`}
           onClick={() => handleClick('/user/historyPurchases')}
         >
-          <div className='mr-3 mt-5 mb-5 h-[22px] w-[22px]'>
+          <div className='mr-3 h-[22px] w-[22px]'>
             <img
-              src='https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black-thumbnail.png'
+              src='https://down-vn.img.susercontent.com/file/f0049e9df4e536bc3e7f140d071e9078'
               alt=''
               className='h-full w-full'
             />

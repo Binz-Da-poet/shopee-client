@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Popover from '../Popover'
 import { AppContext } from 'src/contexts/app.context'
 import { clearLS } from 'src/utils/auth'
@@ -10,8 +10,8 @@ import ShoppingCartApi from 'src/apis/shoppingCart.api'
 import noproduct from 'src/assets/no-product.png'
 import { formatCurrency } from 'src/utils/utils'
 import defaultAvatar from 'src/assets/avatarDefault.png'
-
 import { path } from 'src/constants/path'
+
 function Header() {
   const MAX_PURCHASE = 5
   const { profile, isAdminRole, setProfile, isAuthenticated, setIsAuthenticated } = useContext(AppContext)
@@ -29,10 +29,11 @@ function Header() {
   // }
   const { data: dataShoppingCart } = useQuery({
     queryKey: ['shoppingCart', { status: 'In Cart' }],
-    queryFn: () => ShoppingCartApi.getShoppingCart(ShoppingCartId),
+    queryFn: () => ShoppingCartApi.getCartItemByStatus({ status: 1, shoppingCartId: ShoppingCartId }),
     enabled: isAuthenticated
   })
-  const ShoppingCartItems = dataShoppingCart?.data
+  const ShoppingCartItems = dataShoppingCart?.data.data
+  console.log(ShoppingCartItems)
 
   return (
     <header className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2'>
@@ -85,13 +86,13 @@ function Header() {
                     </button>
                     {isAdminRole ? (
                       <button className='mt-2 py-2 px-3 hover:bg-slate-50 hover:text-orange'>
-                        <Link to='/add'>Add product</Link>
+                        <Link to={path.AdminProducts}>DASHBOARD</Link>
                       </button>
                     ) : (
                       <></>
                     )}
                     <button className='mt-2 py-2 px-3 hover:bg-slate-50 hover:text-orange'>
-                      <Link to=''>Đơn mua</Link>
+                      <NavLink to={path.historyPuchases}>Đơn mua</NavLink>
                     </button>
                     <button className='mt-2 py-2 px-3 hover:bg-slate-50 hover:text-orange' onClick={handleLogout}>
                       Đăng xuất
@@ -166,11 +167,11 @@ function Header() {
           className='m-auto'
           renderPopover={
             <div className='relative max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm  shadow-md'>
-              {ShoppingCartItems && ShoppingCartItems.cartItems && ShoppingCartItems.cartItems.length > 0 ? (
+              {ShoppingCartItems && ShoppingCartItems && ShoppingCartItems.length > 0 ? (
                 <div className='p-2'>
                   <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
                   <div className='mt-5'>
-                    {ShoppingCartItems.cartItems.slice(0, MAX_PURCHASE).map((purchase) => (
+                    {ShoppingCartItems.slice(0, MAX_PURCHASE).map((purchase) => (
                       <div key={purchase.id} className='mt-4 flex hover:bg-slate-50'>
                         <div className='flex-shrink-0'>
                           <img
@@ -191,10 +192,8 @@ function Header() {
 
                   <div className='mt-6 flex items-center justify-between '>
                     <div className='mr-6 text-xs capitalize text-gray-500'>
-                      {ShoppingCartItems.cartItems.length > MAX_PURCHASE
-                        ? ShoppingCartItems.cartItems.length - MAX_PURCHASE
-                        : ''}{' '}
-                      {''}Thêm vào giỏ hàng
+                      {ShoppingCartItems.length > MAX_PURCHASE ? ShoppingCartItems.length - MAX_PURCHASE : ''} {''}Thêm
+                      vào giỏ hàng
                     </div>
                     <Link
                       to='/Cart'
@@ -228,9 +227,9 @@ function Header() {
                 d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
               />
             </svg>
-            {ShoppingCartItems && ShoppingCartItems.cartItems && ShoppingCartItems.cartItems.length > 0 && (
+            {ShoppingCartItems && ShoppingCartItems && ShoppingCartItems.length > 0 && (
               <span className='absolute top-[-5px] left-[17px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange'>
-                {ShoppingCartItems.cartItems.length}
+                {ShoppingCartItems.length}
               </span>
             )}
           </NavLink>

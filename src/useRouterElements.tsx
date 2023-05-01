@@ -6,15 +6,18 @@ import Register from './pages/Register/Register'
 import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
 import RegisterLayout from './layouts/RegisterLayout/RegisterLayout'
-import AddProduct from './pages/AdminPage'
+
 import ProductDetail from './pages/ProductDetail/ProducDetail'
 import Cart from './pages/Cart'
-import { path } from './constants/path'
+
 import CartLayout from './layouts/CartLayout/CartLayout'
 import UserLayout from './pages/User/UserLayout'
 import ChangePassword from './pages/User/Pages/ChangePassWord'
 import Profile from './pages/User/Pages/Profile'
 import HistoryPuchases from './pages/User/Pages/HistoryPurchases'
+import AdminLayout from './pages/AdminPage/AdminLayout/AdminLayout'
+import { path } from './constants/path'
+import AdminProducts from './pages/AdminPage/pages/AdminProducts'
 function AdminRoute() {
   const { isAdminRole } = useContext(AppContext)
   return isAdminRole ? <Outlet /> : <Navigate to='/' />
@@ -36,11 +39,11 @@ const useRouteElements = () => {
       element: <AdminRoute />,
       children: [
         {
-          path: '/add',
+          path: path.AdminProducts,
           element: (
-            <RegisterLayout>
-              <AddProduct />
-            </RegisterLayout>
+            <AdminLayout>
+              <AdminProducts />
+            </AdminLayout>
           )
         }
       ]
