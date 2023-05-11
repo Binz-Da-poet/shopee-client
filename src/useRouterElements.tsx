@@ -18,6 +18,8 @@ import HistoryPuchases from './pages/User/Pages/HistoryPurchases'
 import AdminLayout from './pages/AdminPage/AdminLayout/AdminLayout'
 import { path } from './constants/path'
 import AdminProducts from './pages/AdminPage/pages/AdminProducts'
+import AdminUsers from './pages/AdminPage/pages/AdminUsers'
+import AdminCategories from './pages/AdminPage/pages/AdminCategories'
 function AdminRoute() {
   const { isAdminRole } = useContext(AppContext)
   return isAdminRole ? <Outlet /> : <Navigate to='/' />
@@ -43,6 +45,22 @@ const useRouteElements = () => {
           element: (
             <AdminLayout>
               <AdminProducts />
+            </AdminLayout>
+          )
+        },
+        {
+          path: path.AdminUsers,
+          element: (
+            <AdminLayout>
+              <AdminUsers />
+            </AdminLayout>
+          )
+        },
+        {
+          path: path.AdminCategories,
+          element: (
+            <AdminLayout>
+              <AdminCategories />
             </AdminLayout>
           )
         }

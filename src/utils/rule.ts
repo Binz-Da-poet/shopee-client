@@ -102,6 +102,24 @@ export const schema = yup.object({
   }),
   Search_name: yup.string().trim().required('Hãy nhập tên sản phẩm')
 })
+export const ProductSchema = yup.object({
+  name: yup.string().trim().max(160, 'độ dài tối thiểu 160 ký tự'),
+  description: yup.string().max(360, 'độ dài tối thiểu 360 ký tự'),
+  discount_Price: yup
+    .number()
+    .typeError('discount Price must be a number')
+    .min(1000, 'Price must be positiveD')
+    .max(99999999, 'Price must be less than $1000'),
+  price: yup
+    .number()
+    .typeError('discount Price must be a number')
+    .min(1000, 'Price must be positiveD')
+    .max(99999999, 'Price must be less than $1000'),
+  quantity: yup.number().min(1, 'phải khác 0').max(99999, 'phải bé hơn 100000'),
+  rating: yup.number().min(0).max(5).required(),
+  sold: yup.number(),
+  view: yup.number()
+})
 export const UserSchema = yup.object({
   fullName: yup.string().trim().max(160, 'độ dài tối thiểu 160 ký tự'),
   phoneNumber: yup

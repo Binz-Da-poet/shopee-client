@@ -10,7 +10,9 @@ export const path = {
   image: 'http://localhost:8080/uploads',
   Cart: '/Cart',
   historyPuchases: '/user/historyPurchases',
-  AdminProducts: 'AdminProducts'
+  AdminProducts: '/AdminProducts',
+  AdminUsers: '/AdminUsers',
+  AdminCategories: '/AdminCategories'
 } as const
 export const AUTHORIZED_URLS = [
   '/FileUpload',
@@ -20,5 +22,6 @@ export const AUTHORIZED_URLS = [
   '/CartItem/add',
   '/CartItem/deleteMany',
   '/CartItem/delete',
-  '/User/me'
+  '/User/me',
+  '/Products/delete'
 ]

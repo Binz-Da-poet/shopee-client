@@ -11,9 +11,11 @@ export interface Product {
   quantity: number
   view: number
   description: string
-  category?: Category
+  category: Category
 }
-
+export interface ExtendedProduct extends Product {
+  checked: boolean
+}
 export interface ProductList {
   content: Array<Product>
   pageable: {
@@ -49,7 +51,19 @@ export interface Addproduct {
   view: number
 
   description: string
-  category: {
-    id: number | null
-  }
+  categoryid: number
+}
+export interface addProductRequest {
+  product: Addproduct
+  CategoryName: string
+}
+export interface UpdateModalPreload {
+  name: string
+  description: string
+  price: number
+  discount_Price: number
+  quantity: number
+  rating: number
+  sold: number
+  view: number
 }

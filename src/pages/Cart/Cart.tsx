@@ -2,7 +2,6 @@ import { Fragment, useContext, useEffect, useMemo } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
 import ShoppingCartApi from 'src/apis/shoppingCart.api'
-import Button from 'src/components/Button'
 import { AppContext } from 'src/contexts/app.context'
 import { formatCurrency, generateNameId } from 'src/utils/utils'
 import noproduct from 'src/assets/no-product.png'
@@ -161,7 +160,7 @@ function Cart() {
           <Fragment>
             <div className='overflow-auto'>
               <div className='min-w-[1000px] '>
-                <div className='test-sm grid grid-cols-12 rounded-sm bg-white py-5 px-9 capitalize text-gray-500 shadow'>
+                <div className='test-sm grid grid-cols-12 rounded-sm bg-white px-9 py-5 capitalize text-gray-500 shadow'>
                   <div className='col-span-6 '>
                     <div className='flex items-center'>
                       <div className='flex flex-shrink-0 items-center justify-center pr-3'>
@@ -189,7 +188,7 @@ function Cart() {
                     {extendedPurCharses?.map((purchase, index) => (
                       <div
                         key={purchase.id}
-                        className='mb-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white py-5 px-4 text-center text-sm text-gray-500 first:mt-0'
+                        className='mb-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
                       >
                         <div className='col-span-6'>
                           <div className='flex'>
@@ -215,13 +214,13 @@ function Cart() {
                                     alt={purchase.product.name}
                                   />
                                 </Link>
-                                <div className='flex-grow px-2 pt-1 pb-2'>
+                                <div className='flex-grow px-2 pb-2 pt-1'>
                                   <Link
                                     to={`/${generateNameId({
                                       name: purchase.product.name,
                                       id: purchase.product.id
                                     })}`}
-                                    className='text-left line-clamp-2'
+                                    className='line-clamp-2 text-left'
                                   >
                                     {purchase.product.name}
                                   </Link>

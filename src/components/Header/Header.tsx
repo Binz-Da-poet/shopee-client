@@ -32,8 +32,7 @@ function Header() {
     queryFn: () => ShoppingCartApi.getCartItemByStatus({ status: 1, shoppingCartId: ShoppingCartId }),
     enabled: isAuthenticated
   })
-  const ShoppingCartItems = dataShoppingCart?.data.data
-  console.log(ShoppingCartItems)
+  const ShoppingCartItems = dataShoppingCart ? dataShoppingCart.data.data : []
 
   return (
     <header className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2'>
@@ -42,9 +41,9 @@ function Header() {
           <Popover
             renderPopover={
               <div className='relative w-52 rounded-sm border border-t-0 border-gray-200 bg-white shadow-md'>
-                <div className='flex flex-col py-2 px-3 text-black'>
-                  <button className='py-2 px-3 hover:bg-slate-50 hover:text-orange'>Tiếng Việt</button>
-                  <button className='mt-2 py-2 px-3 hover:bg-slate-50 hover:text-orange'>Tiếng Anh</button>
+                <div className='flex flex-col px-3 py-2 text-black'>
+                  <button className='px-3 py-2 hover:bg-slate-50 hover:text-orange'>Tiếng Việt</button>
+                  <button className='mt-2 px-3 py-2 hover:bg-slate-50 hover:text-orange'>Tiếng Anh</button>
                 </div>
               </div>
             }
@@ -80,21 +79,21 @@ function Header() {
             <Popover
               renderPopover={
                 <div className='relative w-52 rounded-sm border border-t-0 border-gray-200 bg-white shadow-md'>
-                  <div className='flex flex-col py-2 px-3 text-black'>
-                    <button className='py-2 px-3 hover:bg-slate-50 hover:text-orange'>
+                  <div className='flex flex-col px-3 py-2 text-black'>
+                    <button className='px-3 py-2 hover:bg-slate-50 hover:text-orange'>
                       <NavLink to={path.profile}>tài khoản của tôi</NavLink>
                     </button>
                     {isAdminRole ? (
-                      <button className='mt-2 py-2 px-3 hover:bg-slate-50 hover:text-orange'>
+                      <button className='mt-2 px-3 py-2 hover:bg-slate-50 hover:text-orange'>
                         <Link to={path.AdminProducts}>DASHBOARD</Link>
                       </button>
                     ) : (
                       <></>
                     )}
-                    <button className='mt-2 py-2 px-3 hover:bg-slate-50 hover:text-orange'>
+                    <button className='mt-2 px-3 py-2 hover:bg-slate-50 hover:text-orange'>
                       <NavLink to={path.historyPuchases}>Đơn mua</NavLink>
                     </button>
-                    <button className='mt-2 py-2 px-3 hover:bg-slate-50 hover:text-orange' onClick={handleLogout}>
+                    <button className='mt-2 px-3 py-2 hover:bg-slate-50 hover:text-orange' onClick={handleLogout}>
                       Đăng xuất
                     </button>
                   </div>
@@ -145,7 +144,7 @@ function Header() {
               placeholder='Đăng ký và nhận voucher bạn mới đến 70k!'
               {...register('Search_name')}
             />
-            <button className='flex-shrink-0 rounded-sm bg-orange py-2 px-6 hover:opacity-90'>
+            <button className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -228,7 +227,7 @@ function Header() {
               />
             </svg>
             {ShoppingCartItems && ShoppingCartItems && ShoppingCartItems.length > 0 && (
-              <span className='absolute top-[-5px] left-[17px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange'>
+              <span className='absolute left-[17px] top-[-5px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange'>
                 {ShoppingCartItems.length}
               </span>
             )}

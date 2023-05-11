@@ -35,10 +35,9 @@ function Register() {
       onSuccess: (data) => {
         shoppingCartMutation.mutate(data.data.user.userId, {
           onSuccess: (dataCart) => {
-            console.log(dataCart)
-            console.log(data)
+            console.log(dataCart.data.data)
             setIsAuthenticated(true)
-            setProfile(data.data.user)
+            setProfile(dataCart.data.data)
           }
         })
       },

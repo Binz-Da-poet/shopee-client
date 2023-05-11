@@ -17,3 +17,8 @@ export const getProfileFromLS = () => {
 export const setProfileToLS = (profile: User) => {
   localStorage.setItem('profile', JSON.stringify(profile))
 }
+export const setProductId = (id: number) => {
+  localStorage.removeItem('productID')
+  localStorage.setItem('productID', JSON.stringify(id))
+}
+export const getProductId = () => localStorage.getItem('productID') || ''
