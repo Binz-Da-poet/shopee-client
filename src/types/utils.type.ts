@@ -1,4 +1,4 @@
-import { ProductList } from './product.type'
+import { ProductList, UserList } from './product.type'
 import { User } from './user.type'
 
 export interface ResponseApi {
@@ -20,6 +20,11 @@ export interface ResProductPageApi {
   status: string
   message: string
   data: ProductList
+}
+export interface ResUserPageApi {
+  status: string
+  message: string
+  data: UserList
 }
 export interface SuccessResponse<Data> {
   message: string
