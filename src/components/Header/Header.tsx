@@ -23,7 +23,7 @@ function Header() {
     setProfile(null)
     queryClient.removeQueries({ queryKey: ['shoppingCart', { status: 'In Cart' }] })
   }
-  const ShoppingCartId = profile?.shoppingCarts[0].id
+  const ShoppingCartId = profile?.shoppingCart.id
   // if (profile && profile.shoppingCarts && profile.shoppingCarts.length > 0) {
   //   ShoppingCartId =
   // }
@@ -42,8 +42,8 @@ function Header() {
             renderPopover={
               <div className='relative w-52 rounded-sm border border-t-0 border-gray-200 bg-white shadow-md'>
                 <div className='flex flex-col px-3 py-2 text-black'>
-                  <button className='px-3 py-2 hover:bg-slate-50 hover:text-orange'>Tiếng Việt</button>
-                  <button className='mt-2 px-3 py-2 hover:bg-slate-50 hover:text-orange'>Tiếng Anh</button>
+                  <button className='hover:bg-slate-50 px-3 py-2 hover:text-orange'>Tiếng Việt</button>
+                  <button className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange'>Tiếng Anh</button>
                 </div>
               </div>
             }
@@ -80,20 +80,20 @@ function Header() {
               renderPopover={
                 <div className='relative w-52 rounded-sm border border-t-0 border-gray-200 bg-white shadow-md'>
                   <div className='flex flex-col px-3 py-2 text-black'>
-                    <button className='px-3 py-2 hover:bg-slate-50 hover:text-orange'>
+                    <button className='hover:bg-slate-50 px-3 py-2 hover:text-orange'>
                       <NavLink to={path.profile}>tài khoản của tôi</NavLink>
                     </button>
                     {isAdminRole ? (
-                      <button className='mt-2 px-3 py-2 hover:bg-slate-50 hover:text-orange'>
+                      <button className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange'>
                         <Link to={path.AdminProducts}>DASHBOARD</Link>
                       </button>
                     ) : (
                       <></>
                     )}
-                    <button className='mt-2 px-3 py-2 hover:bg-slate-50 hover:text-orange'>
+                    <button className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange'>
                       <NavLink to={path.historyPuchases}>Đơn mua</NavLink>
                     </button>
-                    <button className='mt-2 px-3 py-2 hover:bg-slate-50 hover:text-orange' onClick={handleLogout}>
+                    <button className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange' onClick={handleLogout}>
                       Đăng xuất
                     </button>
                   </div>
@@ -136,7 +136,7 @@ function Header() {
           </NavLink>
         </div>
 
-        <form className=' col-span-6 col-start-4' onSubmit={onSubmitSearch}>
+        <form className=' col-span-6 col-start-5' onSubmit={onSubmitSearch}>
           <div className=' flex rounded-sm bg-white p-1'>
             <input
               type='text'
@@ -171,7 +171,7 @@ function Header() {
                   <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
                   <div className='mt-5'>
                     {ShoppingCartItems.slice(0, MAX_PURCHASE).map((purchase) => (
-                      <div key={purchase.id} className='mt-4 flex hover:bg-slate-50'>
+                      <div key={purchase.id} className='hover:bg-slate-50 mt-4 flex'>
                         <div className='flex-shrink-0'>
                           <img
                             src={`${path.image}/${purchase.product.imageName}`}

@@ -1,6 +1,7 @@
 import { shoppingCart } from './shoppingCart.type'
 
 export type Role = 'ROLE_USER' | 'ROLE_ADMIN'
+export type State = 'Locked' | 'NonLocked'
 export interface User {
   userId: number
   fullName: string
@@ -11,13 +12,14 @@ export interface User {
   password: string
   role: Role
   orders: []
-  shoppingCarts: [shoppingCart]
+  shoppingCart: shoppingCart
   enabled: true
   authorities: [
     {
       authority: Role
     }
   ]
+  status: State
   username: string
   accountNonExpired: true
   credentialsNonExpired: true

@@ -43,14 +43,14 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
     })
   }
   return (
-    <div className='bg-gray-300/40 py-4 px-3'>
+    <div className='bg-gray-300/40 px-3 py-4'>
       <div className='flex flex-wrap items-center justify-between gap-2'>
         <div className='flex flex-wrap items-center gap-2'>
           <div>Sắp xếp theo</div>
           <button
             className={classNames('h-8 px-4 text-center  text-sm  capitalize', {
               'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.view),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.view)
+              'hover:bg-slate-100 bg-white text-black': !isActiveSortBy(sortBy.view)
             })}
             onClick={() => handleSort(sortBy.view)}
           >
@@ -59,7 +59,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
           <button
             className={classNames('h-8 px-4 text-center  text-sm capitalize', {
               'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.createdAt),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.createdAt)
+              'hover:bg-slate-100 bg-white text-black': !isActiveSortBy(sortBy.createdAt)
             })}
             onClick={() => handleSort(sortBy.createdAt)}
           >
@@ -68,7 +68,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
           <button
             className={classNames('h-8 px-4 text-center  text-sm  capitalize', {
               'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.sold),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.sold)
+              'hover:bg-slate-100 bg-white text-black': !isActiveSortBy(sortBy.sold)
             })}
             onClick={() => handleSort(sortBy.sold)}
           >
@@ -77,7 +77,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
           <select
             className={classNames('h-8 px-4 text-left  text-sm  capitalize outline-none', {
               'over:bg-orange/80 bg-orange text-white': isActiveSortBy(sortBy.price),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.price)
+              'hover:bg-slate-100 bg-white text-black': !isActiveSortBy(sortBy.price)
             })}
             value={order || ''}
             onChange={(event) => handlePriceOrder(event.target.value as Exclude<ProductListConfig['order'], undefined>)}
@@ -100,7 +100,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
           </div>
           <div className='ml-2 flex items-center'>
             {page === 1 ? (
-              <span className='flex h-8 w-9 cursor-not-allowed items-center justify-center rounded-tl-sm rounded-bl-sm bg-white/60 shadow hover:bg-slate-100'>
+              <span className='hover:bg-slate-100 flex h-8 w-9 cursor-not-allowed items-center justify-center rounded-bl-sm rounded-tl-sm bg-white/60 shadow'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -121,7 +121,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
                     page: (page - 1).toString()
                   }).toString()
                 }}
-                className='flex  h-8 w-9 items-center justify-center rounded-tl-sm rounded-bl-sm bg-white/60 px-3 shadow hover:bg-slate-100 '
+                className='hover:bg-slate-100  flex h-8 w-9 items-center justify-center rounded-bl-sm rounded-tl-sm bg-white/60 px-3 shadow '
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -136,7 +136,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
               </Link>
             )}
             {page === pageSize ? (
-              <span className='flex h-8 w-9 cursor-not-allowed items-center justify-center rounded-tl-sm rounded-bl-sm bg-white/60 shadow hover:bg-slate-100'>
+              <span className='hover:bg-slate-100 flex h-8 w-9 cursor-not-allowed items-center justify-center rounded-bl-sm rounded-tl-sm bg-white/60 shadow'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -157,7 +157,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
                     page: (page + 1).toString()
                   }).toString()
                 }}
-                className='flex h-8 w-9 items-center justify-center rounded-tl-sm rounded-bl-sm bg-white/60 px-3 shadow hover:bg-slate-100 '
+                className='hover:bg-slate-100 flex h-8 w-9 items-center justify-center rounded-bl-sm rounded-tl-sm bg-white/60 px-3 shadow '
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'

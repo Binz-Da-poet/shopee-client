@@ -1,8 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withMT = require('@material-tailwind/react/utils/withMT')
 
-module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+module.exports = withMT({
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
+    container: {
+      center: true
+    },
     extend: {
       colors: {
         orange: '#ee4d2d',
@@ -13,6 +18,6 @@ module.exports = {
         'bg-login': "url('./assets/bg-login-shoppe.jpg')"
       }
     }
-  }
-  // plugins: [require('@tailwindcss/line-clamp')]
-}
+  },
+  plugins: []
+})

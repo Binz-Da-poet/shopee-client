@@ -14,7 +14,7 @@ import { path } from 'src/constants/path'
 function Cart() {
   const { extendedPurCharses, setExtendedPurchases } = useContext(AppContext)
   const { profile, isAuthenticated } = useContext(AppContext)
-  const ShoppingCartId = profile?.shoppingCarts[0].id
+  const ShoppingCartId = profile?.shoppingCart.id
   const { data: dataShoppingCart, refetch } = useQuery({
     queryKey: ['shoppingCart', { status: 'In Cart' }],
     queryFn: () => ShoppingCartApi.getCartItemByStatus({ status: 1, shoppingCartId: ShoppingCartId }),
@@ -74,7 +74,7 @@ function Cart() {
       )
       updatePurchaseMutation.mutate({
         productId: purchase.product.id,
-        shoppingCartId: profile?.shoppingCarts[0].id,
+        shoppingCartId: profile?.shoppingCart.id,
         quantity: value,
         status: 1
       })
@@ -103,15 +103,16 @@ function Cart() {
   const handleDelete = (purchaseIndex: number) => () => {
     const purchaseId = extendedPurCharses[purchaseIndex].product.id
     deletePurchasesMutation.mutate({
+      status: 1,
       productId: purchaseId,
-      shoppingCartId: profile?.shoppingCarts[0].id
+      shoppingCartId: profile?.shoppingCart.id
     })
   }
   const handleDeleteManyPurchases = () => {
     const purchaseIds = CheckedPurchases.map((purchase) => purchase.product.id)
     deleteManyPurchasesMutation.mutate({
       productIds: purchaseIds,
-      shoppingCartId: profile?.shoppingCarts[0].id,
+      shoppingCartId: profile?.shoppingCart.id,
       status: 1
     })
   }
@@ -126,7 +127,7 @@ function Cart() {
     updateStatusMutation.mutate({
       productIds: purchaseIds,
       status: 2,
-      shoppingCartId: profile?.shoppingCarts[0].id
+      shoppingCartId: profile?.shoppingCart.id
     })
   }
   const location = useLocation()

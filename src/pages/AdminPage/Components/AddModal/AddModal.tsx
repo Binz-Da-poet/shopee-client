@@ -5,7 +5,7 @@ import { ProductSchema } from 'src/utils/rule'
 import { Button, Dialog, Card, CardBody, DialogHeader, DialogFooter } from '@material-tailwind/react'
 import Input from '../Input'
 import { Addproduct } from 'src/types/product.type'
-import { QueryObserverResult, RefetchOptions, useMutation, useQuery } from 'react-query'
+import { QueryClient, QueryObserverResult, RefetchOptions, useMutation, useQuery, useQueryClient } from 'react-query'
 import productApi from 'src/apis/product.api'
 import categoryApi from 'src/apis/category.api'
 import adminApi from 'src/apis/admin.api'
@@ -17,6 +17,7 @@ interface Props {
 }
 type FormProductHaveImage = Addproduct
 function AddModal({ open, setOpen, refetchData }: Props) {
+  const queryClient = useQueryClient()
   const {
     register,
     handleSubmit,
@@ -40,7 +41,14 @@ function AddModal({ open, setOpen, refetchData }: Props) {
       data.imageName = dataImage.data
       const id = data.categoryid
       const product = data
-      const { data: dataproduct } = await addProductMutation.mutateAsync({ id, product })
+      const { data: dataproduct } = await addProductMutation.mutateAsync(
+        { id, product },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] })
+          }
+        }
+      )
       handleOpen()
       refetchData()
     } catch (error) {
@@ -56,75 +64,70 @@ function AddModal({ open, setOpen, refetchData }: Props) {
     keepPreviousData: true
   })
   return (
-    <Dialog
-      size='xs'
-      open={open}
-      handler={handleOpen}
-      className='fixed left-0 top-0 z-[1055] h-full w-full overflow-y-auto bg-modal bg-opacity-80'
-    >
-      <Card className='mx-auto w-full max-w-[24rem]'>
+    <Dialog size='xs' open={open} handler={handleOpen} className='fixed z-[1055] h-fit  '>
+      <Card>
         <DialogHeader> Create Product</DialogHeader>
         <CardBody className='flex flex-col p-2'>
           <Input
+            labelText='name'
             type='text'
             className='p-2'
-            placeholder='name'
             name='name'
             register={register}
             errorMessage={errors.name?.message}
           ></Input>
           <Input
+            labelText='description'
             type='text'
             className='p-2'
-            placeholder='description'
             name='description'
             register={register}
             errorMessage={errors.description?.message}
           ></Input>
           <Input
             type='number'
+            labelText='price'
             className='p-2'
-            placeholder='price'
             name='price'
             register={register}
             errorMessage={errors.price?.message}
           ></Input>
           <Input
+            labelText='discount_Price'
             type='number'
             className='p-2'
-            placeholder='discount_Price'
             name='discount_Price'
             register={register}
             errorMessage={errors.discount_Price?.message}
           ></Input>
           <Input
+            labelText='quantity'
             type='number'
             className='p-2'
-            placeholder='quantity'
             name='quantity'
             register={register}
             errorMessage={errors.quantity?.message}
           ></Input>
           <Input
+            labelText='rating'
             type='number'
             className='p-2'
-            placeholder='rating'
             name='rating'
             register={register}
             errorMessage={errors.rating?.message}
           ></Input>
           <Input
+            labelText='sold'
             type='number'
             className='p-2'
-            placeholder='sold'
             name='sold'
             register={register}
             errorMessage={errors.sold?.message}
           ></Input>
           <Input
+            labelText='view'
             type='number'
             className='p-2'
-            placeholder='view'
             name='view'
             register={register}
             errorMessage={errors.view?.message}
@@ -143,16 +146,16 @@ function AddModal({ open, setOpen, refetchData }: Props) {
             })}
           </select>
           <Input
+            labelText='image'
             type='file'
             className='mt-2'
-            placeholder='image'
             name='image'
             register={register}
             errorMessage={errors.image?.message}
           ></Input>
         </CardBody>
         <DialogFooter>
-          <Button variant='text' onClick={handleOpen} className='mr-1 rounded-lg bg-red-400 text-white'>
+          <Button variant='gradient' color='red' onClick={handleOpen} className='mr-1 rounded-lg bg-red-400 text-white'>
             <span>Cancel</span>
           </Button>
           <Button variant='gradient' onClick={onSubmit} className='bg-blue-600'>

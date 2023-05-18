@@ -1,4 +1,5 @@
 import { Category } from './category.type'
+import { User } from './user.type'
 
 export interface Product {
   id: number
@@ -18,6 +19,15 @@ export interface ExtendedProduct extends Product {
 }
 export interface ProductList {
   content: Array<Product>
+  pageable: {
+    pageNumber: number
+    pageSize: number
+  }
+  totalPages: number
+  totalElements: number
+}
+export interface UserList {
+  content: Array<User>
   pageable: {
     pageNumber: number
     pageSize: number

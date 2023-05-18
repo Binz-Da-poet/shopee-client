@@ -1,6 +1,6 @@
 import { produce } from 'immer'
 import { useEffect, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import adminApi from 'src/apis/admin.api'
 import productApi from 'src/apis/product.api'
 import Pagination from 'src/components/Pagination'
@@ -12,8 +12,11 @@ import { formatCurrency, formatNumberToSocialStyle } from 'src/utils/utils'
 import AddModal from '../../Components/AddModal'
 import Button from 'src/components/Button'
 import UpdateModal from '../../Components/UpdateModal'
+import NotificationDialog from '../../Components/NotificationDialog/NotificationDialog'
 
 function AdminProducts() {
+  const queryClient = useQueryClient()
+  const [openNotification, setOpenNotification] = useState(false)
   const [open, setOpen] = useState(false)
   const [openUpdateModal, setOpenUpdateModal] = useState(false)
   const [productId, setProductId] = useState(0)
@@ -32,7 +35,8 @@ function AdminProducts() {
     staleTime: 3 * 60 * 1000
   })
   const CheckedPurchases = extendedProduct.filter((product) => product.checked)
-
+  const productIds = CheckedPurchases.map((product) => product.id)
+  console.log(productIds[0])
   const dataProducts = data?.data.data.content
   const isAllChecked = extendedProduct.every((product) => product.checked)
   const deleteProduct = useMutation({
@@ -40,6 +44,9 @@ function AdminProducts() {
     onSuccess: () => {
       refetch()
     }
+  })
+  const findCartItems = useMutation({
+    mutationFn: adminApi.findCartItemsByProduct
   })
   useEffect(() => {
     setExtendedProduct(
@@ -67,9 +74,31 @@ function AdminProducts() {
   }
   const handleDelete = () => {
     const productIds = CheckedPurchases.map((product) => product.id)
-    deleteProduct.mutate({
-      productIds: productIds
-    })
+    console.log(productIds[0])
+    findCartItems.mutate(
+      {
+        productId: productIds[0]
+      },
+      {
+        onSuccess: (data) => {
+          if (data.data.message == '1') {
+            setOpenNotification(true)
+          }
+          if (data.data.message == '0') {
+            deleteProduct.mutate(
+              {
+                productIds: productIds
+              },
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries({ queryKey: ['products'] })
+                }
+              }
+            )
+          }
+        }
+      }
+    )
   }
 
   const [preloadedValues, setPreloadedValues] = useState({
@@ -169,11 +198,13 @@ function AdminProducts() {
               </td>
               <td className='border px-2 '>{formatCurrency(product.discount_Price)}</td>
               <td className='border px-2 '>{formatCurrency(product.discount_Price)}</td>
-              <td className='border px-2 '>{formatNumberToSocialStyle(product.quantity)}</td>
-              <td className='border px-2 '>
-                <ProductRating rating={product.rating} />
+              <td className='border px-2 text-center'>{formatNumberToSocialStyle(product.quantity)}</td>
+              <td className='m-auto border px-2 text-center'>
+                <div className='flex items-center justify-center'>
+                  <ProductRating rating={product.rating} />
+                </div>
               </td>
-              <td className='border px-4 '>
+              <td className=' border px-4 '>
                 <Button className='text-blue-500' onClick={() => handleClick(product.id, product.category.id)}>
                   Edit
                 </Button>
@@ -196,6 +227,14 @@ function AdminProducts() {
       <Pagination queryConfig={queryConfig} pageSize={data?.data.data.totalPages ? data?.data.data.totalPages : 0} />
       <>
         <AddModal open={open} setOpen={setOpen} refetchData={refetch}></AddModal>
+      </>
+      <>
+        <NotificationDialog
+          refetchData={refetch}
+          open={openNotification}
+          setOpen={setOpenNotification}
+          CheckedPurchases={CheckedPurchases}
+        ></NotificationDialog>
       </>
       {openUpdateModal ? (
         <UpdateModal

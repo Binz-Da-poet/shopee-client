@@ -27,10 +27,10 @@ function ProductList() {
   })
 
   return (
-    <div className='bg-gray-200 py-6'>
-      <div className='container'>
+    <div className='bg-gray-200 py-6 '>
+      <div className=' container w-full  '>
         <div className='grid grid-cols-12 gap-6'>
-          <div className='col-span-3'>
+          <div className='col-span-3 mr-9'>
             <AsideFilter queryConfig={queryConfig} categories={categoryData?.data.data || []} />
           </div>
           <div className='col-span-9'>

@@ -23,5 +23,6 @@ export const AUTHORIZED_URLS = [
   '/CartItem/deleteMany',
   '/CartItem/delete',
   '/User/me',
-  '/Products/delete'
+  '/Products/delete',
+  '/cartItem/getCartItemsByProduct'
 ]

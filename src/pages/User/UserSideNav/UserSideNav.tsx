@@ -80,7 +80,7 @@ const UserSideNav = () => {
         >
           <div className='mr-3 h-[22px] w-[22px]'>
             <svg
-              className='h-full w-full fill-violet-600'
+              className='fill-violet-600 h-full w-full'
               xmlns='http://www.w3.org/2000/svg'
               height='30'
               viewBox='0 96 960 960'

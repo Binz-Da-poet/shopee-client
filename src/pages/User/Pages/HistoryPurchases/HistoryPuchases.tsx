@@ -14,7 +14,7 @@ function HistoryPuchases() {
   const queryParams: { status?: string } = useQueryParams()
   const status: number | '' = Number(queryParams.status) || ''
   const { profile } = useContext(AppContext)
-  const ShoppingCartId = profile?.shoppingCarts[0].id
+  const ShoppingCartId = profile?.shoppingCart.id
   const { data: dataShoppingCart } = useQuery({
     queryKey: ['shoppingCart'],
     queryFn: () => ShoppingCartApi.getShoppingCart(ShoppingCartId)

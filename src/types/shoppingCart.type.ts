@@ -6,9 +6,3 @@ export interface shoppingCart {
   cartItems?: Array<CartItem>
   User: User
 }
-export interface AddCartItemRequest {
-  productId?: number
-  shoppingCartId?: number
-  quantity?: number
-  status?: number
-}

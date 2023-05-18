@@ -26,8 +26,8 @@ const NavHeader = () => {
         renderPopover={
           <div className='relative rounded-sm border border-gray-300 bg-white shadow-md'>
             <div className='flex flex-col py-2 pr-28 '>
-              <button className='py-2 px-3 hover:text-orange'>Tiếng Việt</button>
-              <button className='mt-2 py-2 px-3 hover:text-orange'>English</button>
+              <button className='px-3 py-2 hover:text-orange'>Tiếng Việt</button>
+              <button className='mt-2 px-3 py-2 hover:text-orange'>English</button>
             </div>
           </div>
         }
@@ -65,19 +65,19 @@ const NavHeader = () => {
             <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
               <Link
                 to={path.profile}
-                className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+                className='hover:bg-slate-100 block bg-white px-4 py-3 text-left hover:text-cyan-500'
               >
                 Tài khoản của bạn
               </Link>
               <Link
                 to={path.historyPuchases}
-                className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+                className='hover:bg-slate-100 block bg-white px-4 py-3 text-left hover:text-cyan-500'
               >
                 Đơn mua
               </Link>
               <button
                 onClick={handleLogout}
-                className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+                className='hover:bg-slate-100 block w-full bg-white px-4 py-3 text-left hover:text-cyan-500'
               >
                 Đăng xuất
               </button>

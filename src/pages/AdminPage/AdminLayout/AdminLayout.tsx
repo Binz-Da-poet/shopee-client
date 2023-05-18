@@ -37,7 +37,7 @@ function AdminLayout({ children }: Props) {
             to={path.AdminProducts}
             className={`${
               activeLink === '/AdminProducts' ? ' bg-white text-black' : ''
-            } flex cursor-pointer items-center justify-center gap-x-4 rounded-md p-2 text-sm `}
+            } flex cursor-pointer items-center justify-center gap-x-4 rounded-md p-2 text-sm hover:bg-white `}
             onClick={() => handleClick('/AdminProducts')}
           >
             PRODUCTS
@@ -46,7 +46,7 @@ function AdminLayout({ children }: Props) {
             to={path.AdminUsers}
             className={`${
               activeLink === '/AdminUsers' ? ' bg-white text-black' : ''
-            } flex cursor-pointer items-center justify-center gap-x-4 rounded-md p-2 text-sm `}
+            } mt-1 flex cursor-pointer items-center justify-center gap-x-4 rounded-md p-2 text-sm hover:bg-white`}
             onClick={() => handleClick('/AdminUsers')}
           >
             USERS
@@ -55,14 +55,14 @@ function AdminLayout({ children }: Props) {
             to='/AdminCategories'
             className={`${
               activeLink === '/AdminCategories' ? ' bg-white text-black' : ''
-            } flex cursor-pointer items-center justify-center gap-x-4 rounded-md p-2 text-sm `}
+            } mt-1 flex cursor-pointer items-center justify-center gap-x-4 rounded-md p-2  text-sm hover:bg-white `}
             onClick={() => handleClick('/AdminCategories')}
           >
             CATEGORIES
           </NavLink>
           <NavLink
             to='/'
-            className={` flex cursor-pointer items-center justify-center gap-x-4 rounded-md p-2 text-sm `}
+            className={` mt-1 flex cursor-pointer items-center justify-center gap-x-4 rounded-md p-2   text-sm hover:bg-white`}
           >
             HOMEPAGE
           </NavLink>

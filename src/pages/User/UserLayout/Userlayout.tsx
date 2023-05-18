@@ -1,5 +1,4 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
 import UserSideNav from '../UserSideNav/UserSideNav'
 interface Props {
   children?: React.ReactNode

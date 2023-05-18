@@ -34,7 +34,7 @@ const CartHeader = () => {
                   placeholder='Tìm kiếm sản phẩm'
                   {...register('Search_name')}
                 />
-                <button className='flex flex-shrink-0 rounded-sm bg-orange py-2 px-8 hover:opacity-90'>
+                <button className='flex flex-shrink-0 rounded-sm bg-orange px-8 py-2 hover:opacity-90'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
