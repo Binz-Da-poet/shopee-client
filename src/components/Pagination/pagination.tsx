@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { t } from 'i18next'
 import React from 'react'
 import { createSearchParams, Link } from 'react-router-dom'
 import { QueryConfig } from 'src/hook/useQueryConfig'
@@ -74,7 +75,7 @@ const Pagination = ({ queryConfig, pageSize }: Props) => {
   return (
     <div className='mt-6 flex flex-wrap justify-center '>
       {page === 1 ? (
-        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm'>Prev</span>
+        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm'> {t('前へ')}</span>
       ) : (
         <Link
           to={{
@@ -86,13 +87,13 @@ const Pagination = ({ queryConfig, pageSize }: Props) => {
           }}
           className='mx-2  rounded border bg-white px-3 py-2 shadow-sm'
         >
-          Prev
+          {t('前へ')}
         </Link>
       )}
 
       {renderPagination()}
       {page === pageSize ? (
-        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm'>Next</span>
+        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm'> {t('次')}</span>
       ) : (
         <Link
           to={{
@@ -104,7 +105,7 @@ const Pagination = ({ queryConfig, pageSize }: Props) => {
           }}
           className='mx-2  rounded border bg-white px-3 py-2 shadow-sm'
         >
-          Next
+          {t('次')}
         </Link>
       )}
     </div>

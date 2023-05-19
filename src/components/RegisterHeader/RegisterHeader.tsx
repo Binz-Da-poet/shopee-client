@@ -1,4 +1,5 @@
 import { Link, useMatch } from 'react-router-dom'
+import { t } from 'i18next'
 
 function RegisterHeader() {
   const registerMatch = useMatch('/register')
@@ -16,7 +17,7 @@ function RegisterHeader() {
             </svg>
           </Link>
           <div className='ml-5 text-xl lg:text-2xl'>
-            {registerMatch ? 'Đăng ký' : loginMatch ? 'Đăng nhập' : 'Thêm Product'}
+            {registerMatch ? t('登録') : loginMatch ? t('ログイン') : 'Thêm Product'}
           </div>
         </nav>
       </div>

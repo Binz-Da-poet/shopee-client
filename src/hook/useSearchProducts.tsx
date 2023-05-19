@@ -31,7 +31,7 @@ const useSearchProducts = () => {
           name: data.Search_name
         }
     navigate({
-      pathname: '/',
+      pathname: '',
       search: createSearchParams(config).toString()
     })
   })

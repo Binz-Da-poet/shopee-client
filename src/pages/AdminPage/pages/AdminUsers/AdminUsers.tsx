@@ -41,9 +41,7 @@ function AdminUsers() {
             </Typography>
           </div>
           <div className='flex shrink-0 flex-col gap-2 sm:flex-row'>
-            <Button variant='outlined' color='blue-gray' size='sm'>
-              view all
-            </Button>
+            <Chip variant='gradient' value={`Total Users :  ${UserList?.length}`} color='deep-orange' />
             <Button className='flex items-center gap-3' color='blue' size='sm'>
               <UserPlusIcon strokeWidth={2} className='h-4 w-4' /> Add member
             </Button>
@@ -100,7 +98,7 @@ function AdminUsers() {
                       <Chip
                         variant='gradient'
                         value={status == 'NonLocked' ? 'open' : 'Locked'}
-                        color={status == 'NonLocked' ? 'green' : 'blue-gray'}
+                        color={status == 'NonLocked' ? 'green' : 'red'}
                       />
                     </div>
                   </td>

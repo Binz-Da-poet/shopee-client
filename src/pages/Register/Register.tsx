@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { t } from 'i18next'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import authApi from 'src/apis/auth.api'
 import ShoppingCartApi from 'src/apis/shoppingCart.api'
 import Button from 'src/components/Button'
@@ -15,6 +16,7 @@ type FormData = Schema
 const registerSchema = schema.pick(['email', 'password', 'fullName', 'address', 'phoneNumber'])
 function Register() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
+  const navigate = useNavigate()
   const {
     register,
     setError,
@@ -30,14 +32,21 @@ function Register() {
   const shoppingCartMutation = useMutation({
     mutationFn: (id: number) => ShoppingCartApi.createCart(id)
   })
+  const LoginMutation = useMutation({
+    mutationFn: (body: FormData) => authApi.loginAccount(body)
+  })
   const onSubmit = handleSubmit((data: FormData) => {
     registerAccountMutation.mutate(data, {
-      onSuccess: (data) => {
-        shoppingCartMutation.mutate(data.data.user.userId, {
+      onSuccess: (dataUser) => {
+        shoppingCartMutation.mutate(dataUser.data.user.userId, {
           onSuccess: (dataCart) => {
-            console.log(dataCart.data.data)
-            setIsAuthenticated(true)
-            setProfile(dataCart.data.data)
+            LoginMutation.mutate(data, {
+              onSuccess: (dataLogin) => {
+                console.log(dataLogin)
+                setProfile(dataLogin.data.user)
+                setIsAuthenticated(true)
+              }
+            })
           }
         })
       },
@@ -61,7 +70,7 @@ function Register() {
         <div className='grid grid-cols-1 bg-bg-login bg-contain  bg-center bg-no-repeat py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-xl' onSubmit={onSubmit}>
-              <div className='text-2xl'>Đăng Ký</div>
+              <div className='text-2xl'>{t('登録')}</div>
               <Input
                 type='text'
                 className='mt-8'
@@ -81,7 +90,7 @@ function Register() {
               <Input
                 type='text'
                 className='mt-2'
-                placeholder='Họ Và Tên'
+                placeholder='Full Name'
                 name='fullName'
                 register={register}
                 errorMessage={errors.fullName?.message}
@@ -89,7 +98,7 @@ function Register() {
               <Input
                 type='text'
                 className='mt-2'
-                placeholder='Địa Chỉ'
+                placeholder='Address'
                 name='address'
                 register={register}
                 errorMessage={errors.address?.message}
@@ -97,7 +106,7 @@ function Register() {
               <Input
                 type='text'
                 className='mt-2'
-                placeholder='Số Điện thoại'
+                placeholder='Phone Number'
                 name='phoneNumber'
                 register={register}
                 errorMessage={errors.phoneNumber?.message}
@@ -110,14 +119,14 @@ function Register() {
                   isLoading={registerAccountMutation.isLoading}
                   disabled={registerAccountMutation.isLoading}
                 >
-                  Đăng Ký
+                  {t('登録')}
                 </Button>
               </div>
               <div className='mt-8 text-center'>
                 <div className='flex items-center justify-center'>
                   <span className='text-slate-300'>Bạn đã có tài khoản</span>
                   <Link className='ml-2 text-red-400' to='/login'>
-                    Đăng Nhập
+                    {t('ログイン')}
                   </Link>
                 </div>
               </div>

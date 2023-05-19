@@ -1,23 +1,24 @@
+import { t } from 'i18next'
+
 function Footer() {
   return (
     <footer className='bg-neutral-100 py-16'>
       <div className='mx-auto max-w-7xl px-4'>
         <div className='grid grid-cols-1 gap-4 text-sm lg:grid-cols-3'>
           <div className='lg:col-span-1'>
-            <div>© 2023 Shopee. Tất cả các quyền được bảo lưu.</div>
+            <div>© 2023 Shopee. {t('全ての権利は保留されています')}.</div>
           </div>
           <div className='lg:col-span-2'>
             <div>
-              Quốc gia & Khu vực: Singapore Indonesia Đài Loan Thái Lan Malaysia Việt Nam Philippines Brazil México
-              Colombia Chile
+              {t('国と地域シンガポールインドネシア台湾タイマレーシアベトナムフィリピンブラジルメキシココロンビアチリ')}
             </div>
           </div>
         </div>
         <div className='mt-16 grid grid-cols-2  px-36 text-xs font-light lg:grid-cols-4 '>
-          <div className='lg:col-span-1'>CHÍNH SÁCH BẢO MẬT</div>
-          <div className='lg:col-span-1'>QUY CHẾ HOẠT ĐỘNG</div>
-          <div className='lg:col-span-1'>CHÍNH SÁCH VẬN CHUYỂN</div>
-          <div className='lg:col-span-1'>CHÍNH SÁCH TRẢ HÀNG VÀ HOÀN TIỀN</div>
+          <div className='lg:col-span-1'>{t('プライバシーポリシー')}</div>
+          <div className='lg:col-span-1'>{t('運営規則')}</div>
+          <div className='lg:col-span-1'>{t('配送ポリシー')}</div>
+          <div className='lg:col-span-1'>{t('返品返金ポリシー')}</div>
         </div>
 
         <div className='mt-10 text-center text-sm'>

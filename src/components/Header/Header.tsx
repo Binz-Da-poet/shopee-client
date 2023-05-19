@@ -11,8 +11,12 @@ import noproduct from 'src/assets/no-product.png'
 import { formatCurrency } from 'src/utils/utils'
 import defaultAvatar from 'src/assets/avatarDefault.png'
 import { path } from 'src/constants/path'
+import { useTranslation } from 'react-i18next'
+import { locales } from 'src/i18n/i18n'
 
 function Header() {
+  const { i18n, t } = useTranslation()
+  const currentLanguage = locales[i18n.language as keyof typeof locales]
   const MAX_PURCHASE = 5
   const { profile, isAdminRole, setProfile, isAuthenticated, setIsAuthenticated } = useContext(AppContext)
   const { onSubmitSearch, register } = useSearchProducts()
@@ -33,7 +37,9 @@ function Header() {
     enabled: isAuthenticated
   })
   const ShoppingCartItems = dataShoppingCart ? dataShoppingCart.data.data : []
-
+  const handleChangeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng)
+  }
   return (
     <header className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2'>
       <div className=' mx-14  '>
@@ -42,8 +48,18 @@ function Header() {
             renderPopover={
               <div className='relative w-52 rounded-sm border border-t-0 border-gray-200 bg-white shadow-md'>
                 <div className='flex flex-col px-3 py-2 text-black'>
-                  <button className='hover:bg-slate-50 px-3 py-2 hover:text-orange'>Tiếng Việt</button>
-                  <button className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange'>Tiếng Anh</button>
+                  <button
+                    className='hover:bg-slate-50 px-3 py-2 hover:text-orange'
+                    onClick={() => handleChangeLanguage('vi')}
+                  >
+                    Tiếng Việt
+                  </button>
+                  <button
+                    className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange'
+                    onClick={() => handleChangeLanguage('jp')}
+                  >
+                    Japanese
+                  </button>
                 </div>
               </div>
             }
@@ -63,7 +79,7 @@ function Header() {
                 d='M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418'
               />
             </svg>
-            <span className='mx-1'>Tiếng Việt</span>
+            <span className='mx-1'>{currentLanguage}</span>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -81,7 +97,7 @@ function Header() {
                 <div className='relative w-52 rounded-sm border border-t-0 border-gray-200 bg-white shadow-md'>
                   <div className='flex flex-col px-3 py-2 text-black'>
                     <button className='hover:bg-slate-50 px-3 py-2 hover:text-orange'>
-                      <NavLink to={path.profile}>tài khoản của tôi</NavLink>
+                      <NavLink to={path.profile}>{t('アカウント')}</NavLink>
                     </button>
                     {isAdminRole ? (
                       <button className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange'>
@@ -91,10 +107,10 @@ function Header() {
                       <></>
                     )}
                     <button className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange'>
-                      <NavLink to={path.historyPuchases}>Đơn mua</NavLink>
+                      <NavLink to={path.historyPuchases}>{t('カード')}</NavLink>
                     </button>
                     <button className='hover:bg-slate-50 mt-2 px-3 py-2 hover:text-orange' onClick={handleLogout}>
-                      Đăng xuất
+                      {t('ログアウト')}
                     </button>
                   </div>
                 </div>
@@ -114,11 +130,11 @@ function Header() {
           ) : (
             <div className='flex items-center'>
               <NavLink to={path.register} className='mx-3 cursor-pointer capitalize hover:text-gray-300'>
-                Đăng Ký
+                {t('登録')}
               </NavLink>
               <div className='h-4 border-r-[1px] border-r-white/40'></div>
               <NavLink to={path.login} className='mx-3 cursor-pointer capitalize hover:text-gray-300'>
-                Đăng Nhập
+                {t('ログイン')}
               </NavLink>
             </div>
           )}
@@ -141,7 +157,7 @@ function Header() {
             <input
               type='text'
               className='flex-grow border-none bg-transparent px-3 py-2 text-black outline-none'
-              placeholder='Đăng ký và nhận voucher bạn mới đến 70k!'
+              placeholder={t('登録して最大70000の新しいクーポンを受け取りましょう') as string}
               {...register('Search_name')}
             />
             <button className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90'>

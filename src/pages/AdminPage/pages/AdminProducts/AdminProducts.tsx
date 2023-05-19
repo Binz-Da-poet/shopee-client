@@ -13,6 +13,9 @@ import AddModal from '../../Components/AddModal'
 import Button from 'src/components/Button'
 import UpdateModal from '../../Components/UpdateModal'
 import NotificationDialog from '../../Components/NotificationDialog/NotificationDialog'
+import { Input } from '@material-tailwind/react'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import useSearchProducts from 'src/hook/useSearchProducts'
 
 function AdminProducts() {
   const queryClient = useQueryClient()
@@ -25,6 +28,7 @@ function AdminProducts() {
   const handleOpen = () => setOpen((cur) => !cur)
   const handleOpenUpdateModal = () => setOpenUpdateModal((cur) => !cur)
   const [extendedProduct, setExtendedProduct] = useState<ExtendedProduct[]>([])
+  const { onSubmitSearch, register } = useSearchProducts()
 
   const queryConfig = useQueryConfig()
   const { data, refetch } = useQuery({
@@ -163,6 +167,17 @@ function AdminProducts() {
     <div className='mx-auto max-w-7xl py-6 sm:px-6 lg:px-8'>
       <div className='flex items-center justify-between  border-b-2 border-b-black/10 pb-4 text-gray-900 '>
         <h2 className=' text-4xl font-bold leading-tight text-gray-900'>Products</h2>
+        <div className='flex flex-col items-center justify-between gap-4 md:flex-row'>
+          <div className='w-full md:w-72'>
+            <form className=' col-span-6 col-start-5' onSubmit={onSubmitSearch}>
+              <Input
+                label='Search'
+                icon={<MagnifyingGlassIcon className='h-5 w-5' onClick={onSubmitSearch} />}
+                {...register('Search_name')}
+              />
+            </form>
+          </div>
+        </div>
         <p className='rounded bg-orange px-4 py-2 font-bold text-white '>Total : {data?.data.data.totalElements}</p>
         <button className='rounded-xl bg-blue-500 px-4 py-2 font-bold text-white' onClick={handleOpen}>
           + Create Product

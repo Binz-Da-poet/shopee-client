@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { t } from 'i18next'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
@@ -62,7 +63,7 @@ function Login() {
         <div className='grid grid-cols-1 bg-bg-login bg-contain  bg-center bg-no-repeat py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-xl' onSubmit={onSubmit} noValidate>
-              <div className='text-2xl'>Đăng Nhập</div>
+              <div className='text-2xl'>{t('ログイン')}</div>
               <Input
                 type='text'
                 className='mt-8'
@@ -87,14 +88,14 @@ function Login() {
                   isLoading={LoginMutation.isLoading}
                   disabled={LoginMutation.isLoading}
                 >
-                  Đăng Nhập
+                  {t('ログイン')}
                 </Button>
               </div>
               <div className='mt-8 text-center'>
                 <div className='flex items-center justify-center'>
-                  <span className='text-slate-300'>Bạn chưa có tài khoản</span>
+                  <span className='text-slate-300'> {t('アカウントを持っていません')}</span>
                   <NavLink className='ml-2 text-red-400' to='/register'>
-                    Đăng Ký
+                    {t('登録')}
                   </NavLink>
                 </div>
               </div>

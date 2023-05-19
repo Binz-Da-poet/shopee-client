@@ -5,12 +5,13 @@ import { path } from 'src/constants/path'
 
 import { Product as ProductType } from 'src/types/product.type'
 import { formatCurrency, formatNumberToSocialStyle, generateNameId } from 'src/utils/utils'
-
+import { useTranslation } from 'react-i18next'
 interface Props {
   product: ProductType
 }
 
 function Product({ product }: Props) {
+  const { t } = useTranslation()
   return (
     <Link to={`/${generateNameId({ name: product.name, id: product.id })}`}>
       <div className='border-1 overflow-hidden rounded-sm border border-solid border-gray-300 bg-white shadow transition-transform duration-100 hover:translate-y-[-0.5rem] hover:border-orange hover:shadow-md'>
@@ -37,7 +38,7 @@ function Product({ product }: Props) {
             <ProductRating rating={product.rating} />
             <div className='ml-2 text-sm'>
               <span>{formatNumberToSocialStyle(product.sold)}</span>
-              <span className='ml-1'>Đã bán</span>
+              <span className='ml-1'>{t('個売れた')}</span>
             </div>
           </div>
         </div>

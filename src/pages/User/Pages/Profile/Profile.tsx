@@ -19,6 +19,7 @@ import defaultAvatar from 'src/assets/avatarDefault.png'
 
 import { setProfileToLS } from 'src/utils/auth'
 import { path } from 'src/constants/path'
+import { t } from 'i18next'
 
 type FormDataUser = UpdateUser
 const profileSchema = UserSchema.pick(['fullName', 'address', 'avatar', 'phoneNumber'])
@@ -59,7 +60,7 @@ const Profile = () => {
         }
       })
     } else if (data.Image[0].size >= 1048576) {
-      toast.error('Dung lượng file tối đa 1MB Và Định Dạng png, jpg, jpeg, bmp')
+      toast.error(t('img'))
     } else {
       const formData = new FormData()
       formData.append('file', data.Image[0])
@@ -84,8 +85,8 @@ const Profile = () => {
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
       <div className='border-b border-b-gray-200 py-6'>
-        <h1 className='text-lg font-medium capitalize text-gray-900'>Hồ sơ của tôi</h1>
-        <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
+        <h1 className='text-lg font-medium capitalize text-gray-900'>{t('profile')}</h1>
+        <div className='mt-1 text-sm text-gray-700'>{t('アカウントを管理および保護する')}</div>
         <form className='mt-8 flex flex-col-reverse md:flex-row md:items-center'>
           <div className='mt-6 flex-grow md:mt-0 md:pr-12'>
             <div className='flex flex-col flex-wrap sm:flex-row'>
@@ -163,9 +164,8 @@ const Profile = () => {
                 Chọn ảnh
               </Input>
 
-              <div className='mt-3 text-gray-400'>
-                <div>Dung lượng file tối đa 1MB</div>
-                <div>Định dạng: .PNG .JPEG</div>
+              <div className='mt-3 text-center text-gray-400'>
+                <div>{t('img')}</div>
               </div>
             </div>
           </div>

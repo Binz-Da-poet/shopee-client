@@ -54,7 +54,7 @@ class Http {
           const data: any | undefined = error.response?.data
 
           const message = data.message || error.request.status
-          toast.error(message === HttpStatusCode.Forbidden ? 'Token sai hoặc hết hạn' : data.message)
+          console.log(message === HttpStatusCode.Forbidden ? 'Token sai hoặc hết hạn' : data.message)
         }
         if (error.response?.status === HttpStatusCode.Forbidden) {
           clearLS()

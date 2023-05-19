@@ -6,7 +6,7 @@ import './index.css'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { AppProvider } from './contexts/app.context'
-
+import 'src/i18n/i18n'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
