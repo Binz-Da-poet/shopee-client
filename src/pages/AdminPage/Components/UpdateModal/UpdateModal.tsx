@@ -58,12 +58,14 @@ function UpdateModal({ open, setOpen, refetchData, preloadedValues, productId, c
         data.imageName = dataImage.data
         const id = productId
         const updateProduct = data
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { data: dataproduct } = await updateProductMutation.mutateAsync({ id, updateProduct })
         handleOpen()
         refetchData()
       } else {
         const id = productId
         const updateProduct = data
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { data: dataproduct } = await updateProductMutation.mutateAsync({ id, updateProduct })
         handleOpen()
         refetchData()
@@ -81,7 +83,7 @@ function UpdateModal({ open, setOpen, refetchData, preloadedValues, productId, c
     keepPreviousData: true
   })
   return (
-    <Dialog size='xs' open={open} handler={handleOpen} className=' fixed  z-[1055]'>
+    <Dialog size='sm' open={open} handler={handleOpen} className=' fixed  z-[1055] overflow-scroll'>
       <Card>
         <DialogHeader> Update Product</DialogHeader>
         <CardBody className='flex flex-col p-2'>

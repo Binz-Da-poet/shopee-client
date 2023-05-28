@@ -28,6 +28,7 @@ function AddModal({ open, setOpen, refetchData }: Props) {
   })
   const onSubmit = handleSubmit(async (data) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data: categoryData } = await AddCategoryMutation.mutateAsync(data.name)
       handleOpen()
       refetchData()
@@ -36,6 +37,7 @@ function AddModal({ open, setOpen, refetchData }: Props) {
     }
   })
   const handleOpen = () => setOpen((cur) => !cur)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: categoryData } = useQuery({
     queryKey: ['category'],
     queryFn: () => {

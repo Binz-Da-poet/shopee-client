@@ -5,7 +5,7 @@ import { ProductSchema } from 'src/utils/rule'
 import { Button, Dialog, Card, CardBody, DialogHeader, DialogFooter } from '@material-tailwind/react'
 import Input from '../Input'
 import { Addproduct } from 'src/types/product.type'
-import { QueryClient, QueryObserverResult, RefetchOptions, useMutation, useQuery, useQueryClient } from 'react-query'
+import { QueryObserverResult, RefetchOptions, useMutation, useQuery, useQueryClient } from 'react-query'
 import productApi from 'src/apis/product.api'
 import categoryApi from 'src/apis/category.api'
 import adminApi from 'src/apis/admin.api'
@@ -41,6 +41,7 @@ function AddModal({ open, setOpen, refetchData }: Props) {
       data.imageName = dataImage.data
       const id = data.categoryid
       const product = data
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data: dataproduct } = await addProductMutation.mutateAsync(
         { id, product },
         {
@@ -64,7 +65,7 @@ function AddModal({ open, setOpen, refetchData }: Props) {
     keepPreviousData: true
   })
   return (
-    <Dialog size='xs' open={open} handler={handleOpen} className='fixed z-[1055] h-fit  '>
+    <Dialog size='sm' open={open} handler={handleOpen} className='fixed z-[1055] h-screen overflow-scroll '>
       <Card>
         <DialogHeader> Create Product</DialogHeader>
         <CardBody className='flex flex-col p-2'>

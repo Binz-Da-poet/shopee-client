@@ -3,6 +3,19 @@ export const LocalStorageEventTarget = new EventTarget()
 export const setAccessTokenToLS = (access_token: string | '') => {
   localStorage.setItem('access_token', access_token)
 }
+
+export const setPayPurchasesToLS = (
+  ShoppingCartId: number | undefined,
+  purchaseIds: number[],
+  address: string,
+  fullName: string,
+  phoneNumber: string
+) => {
+  const data = { ShoppingCartId, purchaseIds, address, fullName, phoneNumber }
+  localStorage.setItem('PayPurchases', JSON.stringify(data))
+}
+export const getPayPurchasesFromLS = () => JSON.parse(localStorage.getItem('PayPurchases') || '')
+
 export const clearLS = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('profile')

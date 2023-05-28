@@ -1,9 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useMatch } from 'react-router-dom'
 
 import NavHeader from '../NavHeader'
 import useSearchProducts from 'src/hook/useSearchProducts'
+import { path } from 'src/constants/path'
 
 const CartHeader = () => {
+  const registerMatch = useMatch(path.Delivery)
   const { onSubmitSearch, register } = useSearchProducts()
   return (
     <div className='border-b border-b-black/10'>
@@ -14,7 +16,7 @@ const CartHeader = () => {
       </div>
       <div className='mx-40 bg-white py-6'>
         <div className='container'>
-          <nav className='md:flex md:items-center md:justify-between'>
+          <nav className='md:flex md:items-center md:justify-around'>
             <Link to='/' className='flex flex-shrink-0 items-end'>
               <div>
                 <svg viewBox='0 0 192 65' className='h-8 fill-orange lg:h-11'>
@@ -24,7 +26,7 @@ const CartHeader = () => {
                 </svg>
               </div>
               <div className='mx-4 h-8 w-[1px] bg-orange ' />
-              <div className='capitalize text-orange lg:text-xl'>Giỏ hàng</div>
+              <div className='capitalize text-orange lg:text-xl'>{registerMatch ? 'Thanh Toán' : 'Giỏ Hàng'}</div>
             </Link>
             <form className='mt-3 md:mt-0 md:w-[50%]' onSubmit={onSubmitSearch}>
               <div className='flex rounded-sm border-2 border-orange'>

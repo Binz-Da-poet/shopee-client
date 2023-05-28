@@ -13,9 +13,10 @@ import AddModal from '../../Components/AddModal'
 import Button from 'src/components/Button'
 import UpdateModal from '../../Components/UpdateModal'
 import NotificationDialog from '../../Components/NotificationDialog/NotificationDialog'
-import { Input } from '@material-tailwind/react'
+import { Chip, Input, Button as ButtonUi } from '@material-tailwind/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import useSearchProducts from 'src/hook/useSearchProducts'
+import { PlusCircleIcon } from '@heroicons/react/24/solid'
 
 function AdminProducts() {
   const queryClient = useQueryClient()
@@ -178,10 +179,10 @@ function AdminProducts() {
             </form>
           </div>
         </div>
-        <p className='rounded bg-orange px-4 py-2 font-bold text-white '>Total : {data?.data.data.totalElements}</p>
-        <button className='rounded-xl bg-blue-500 px-4 py-2 font-bold text-white' onClick={handleOpen}>
-          + Create Product
-        </button>
+        <Chip variant='gradient' value={`Total Products :  ${data?.data.data.totalElements}`} color='deep-orange' />
+        <ButtonUi className='flex items-center gap-3' color='blue' size='sm' onClick={handleOpen}>
+          <PlusCircleIcon strokeWidth={2} className='h-4 w-4' /> Create Product
+        </ButtonUi>
       </div>
       <table className='w-full table-fixed'>
         <thead>

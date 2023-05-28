@@ -69,7 +69,7 @@ function AdminLayout({ children }: Props) {
         </div>
       </div>
 
-      <div className='h-screen w-full p-7 text-2xl font-semibold'>{children}</div>
+      <div className='h-fit w-full p-7 text-2xl font-semibold'>{children}</div>
     </div>
   )
 }

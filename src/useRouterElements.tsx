@@ -7,7 +7,6 @@ import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
 import RegisterLayout from './layouts/RegisterLayout/RegisterLayout'
 
-import ProductDetail from './pages/ProductDetail/ProducDetail'
 import Cart from './pages/Cart'
 
 import CartLayout from './layouts/CartLayout/CartLayout'
@@ -20,6 +19,9 @@ import { path } from './constants/path'
 import AdminProducts from './pages/AdminPage/pages/AdminProducts'
 import AdminUsers from './pages/AdminPage/pages/AdminUsers'
 import AdminCategories from './pages/AdminPage/pages/AdminCategories'
+import ProductDetail from './pages/ProductDetail'
+import DeliveryCart from './pages/DeliveryCart'
+
 function AdminRoute() {
   const { isAdminRole } = useContext(AppContext)
   return isAdminRole ? <Outlet /> : <Navigate to='/' />
@@ -132,10 +134,10 @@ const useRouteElements = () => {
           )
         },
         {
-          path: path.profile,
+          path: path.Delivery,
           element: (
             <CartLayout>
-              <Cart />
+              <DeliveryCart />
             </CartLayout>
           )
         }

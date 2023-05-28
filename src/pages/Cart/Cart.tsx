@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useMemo } from 'react'
+import { Fragment, useContext, useEffect, useMemo, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { Link, useLocation } from 'react-router-dom'
 import ShoppingCartApi from 'src/apis/shoppingCart.api'
@@ -11,13 +11,15 @@ import QuantityController from 'src/components/QuantityController'
 
 import { keyBy } from 'lodash'
 import { path } from 'src/constants/path'
+import AddDialog from 'src/components/AddDialog'
 function Cart() {
+  const [open, setOpen] = useState(false)
   const { extendedPurCharses, setExtendedPurchases } = useContext(AppContext)
   const { profile, isAuthenticated } = useContext(AppContext)
   const ShoppingCartId = profile?.shoppingCart.id
   const { data: dataShoppingCart, refetch } = useQuery({
     queryKey: ['shoppingCart', { status: 'In Cart' }],
-    queryFn: () => ShoppingCartApi.getCartItemByStatus({ status: 1, shoppingCartId: ShoppingCartId }),
+    queryFn: () => ShoppingCartApi.getCartItemById({ shoppingCartId: ShoppingCartId }),
     enabled: isAuthenticated
   })
 
@@ -27,6 +29,7 @@ function Cart() {
     () => extendedPurCharses.filter((purchases) => purchases.checked),
     [extendedPurCharses]
   )
+  const purchaseIds = CheckedPurchases.map((purchase) => purchase.product.id)
   const totalCheckedPurchasesPrice = useMemo(
     () =>
       CheckedPurchases.reduce((result, current) => {
@@ -75,8 +78,7 @@ function Cart() {
       updatePurchaseMutation.mutate({
         productId: purchase.product.id,
         shoppingCartId: profile?.shoppingCart.id,
-        quantity: value,
-        status: 1
+        quantity: value
       })
     }
   }
@@ -103,7 +105,6 @@ function Cart() {
   const handleDelete = (purchaseIndex: number) => () => {
     const purchaseId = extendedPurCharses[purchaseIndex].product.id
     deletePurchasesMutation.mutate({
-      status: 1,
       productId: purchaseId,
       shoppingCartId: profile?.shoppingCart.id
     })
@@ -116,19 +117,9 @@ function Cart() {
       status: 1
     })
   }
-  const updateStatusMutation = useMutation({
-    mutationFn: ShoppingCartApi.updateCartItemStatus,
-    onSuccess: () => {
-      refetch()
-    }
-  })
+
   const handleBuyCartItems = () => {
-    const purchaseIds = CheckedPurchases.map((purchase) => purchase.product.id)
-    updateStatusMutation.mutate({
-      productIds: purchaseIds,
-      status: 2,
-      shoppingCartId: profile?.shoppingCart.id
-    })
+    setOpen(true)
   }
   const location = useLocation()
   const chooseCartItemId = (location.state as { CartItemId: number } | null)?.CartItemId
@@ -155,8 +146,8 @@ function Cart() {
   }, [])
 
   return (
-    <div className='bg-neutral-100 py-16'>
-      <div className='lg container 2xl:ml-20'>
+    <div className='justify-between bg-cartbg  py-5 md:flex md:items-center md:justify-evenly'>
+      <div className='container'>
         {extendedPurCharses && extendedPurCharses.length > 0 ? (
           <Fragment>
             <div className='overflow-auto'>
@@ -335,6 +326,12 @@ function Cart() {
           </div>
         )}
       </div>
+      <AddDialog
+        open={open}
+        setOpen={setOpen}
+        purchaseIds={purchaseIds}
+        shoppingCartId={profile?.shoppingCart.id}
+      ></AddDialog>
     </div>
   )
 }

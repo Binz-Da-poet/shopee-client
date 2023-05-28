@@ -34,3 +34,9 @@ export interface UpdateUser {
   password: string
   Image: FileList
 }
+export interface UserConfig {
+  fullName?: string
+}
+export interface ExtendedUser extends User {
+  checked: boolean
+}

@@ -1,35 +1,44 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import adminApi from 'src/apis/admin.api'
 import { path } from 'src/constants/path'
 import defaultAvatar from 'src/assets/avatarDefault.png'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-import { PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid'
-import {
-  Card,
-  CardHeader,
-  Input,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Avatar,
-  IconButton,
-  Tooltip
-} from '@material-tailwind/react'
-const TABLE_HEAD = ['User', ' Address', 'Status', 'Role', '']
+import { UserPlusIcon } from '@heroicons/react/24/solid'
+
+import { Card, CardHeader, Input, Typography, Button, CardBody, Chip, Avatar } from '@material-tailwind/react'
+import useSearchProducts from 'src/hook/useSearchProducts'
+import useQueryConfig from 'src/hook/useQueryConfig'
+import { ProductListConfig } from 'src/types/product.type'
+
+const TABLE_HEAD = ['User', ' Address', 'Status', 'Role', 'Change State']
 function AdminUsers() {
-  const { data } = useQuery({
-    queryKey: ['UserList'],
+  const { onSubmitSearch, register } = useSearchProducts()
+
+  const queryConfig = useQueryConfig()
+  const { data, refetch } = useQuery({
+    queryKey: ['UserList', queryConfig],
     queryFn: () => {
-      return adminApi.getAllUser()
+      return adminApi.getAllUser(queryConfig as ProductListConfig)
     },
     staleTime: 3 * 60 * 1000
   })
   const UserList = data?.data.data.content
 
+  const ChangeStateMutaion = useMutation({
+    mutationFn: adminApi.changeState
+  })
+
+  const handleChangeState = (purchaseIndex: number) => () => {
+    const UserId = UserList && UserList[purchaseIndex]?.userId
+    ChangeStateMutaion.mutate(UserId as number, {
+      onSuccess: () => {
+        console.log('change user sucess')
+        refetch()
+      }
+    })
+  }
   return (
-    <Card className='h-full w-full'>
+    <Card className='h-fit w-full'>
       <CardHeader floated={false} shadow={false} className='rounded-none'>
         <div className='mb-8 flex items-center justify-between gap-8'>
           <div>
@@ -49,11 +58,17 @@ function AdminUsers() {
         </div>
         <div className='flex flex-col items-center justify-between gap-4 md:flex-row'>
           <div className='w-full md:w-72'>
-            <Input label='Search' icon={<MagnifyingGlassIcon className='h-5 w-5' />} />
+            <form className=' col-span-6 col-start-5' onSubmit={onSubmitSearch}>
+              <Input
+                label='Search'
+                icon={<MagnifyingGlassIcon className='h-5 w-5' onClick={onSubmitSearch} />}
+                {...register('Search_name')}
+              />
+            </form>
           </div>
         </div>
       </CardHeader>
-      <CardBody className='overflow-scroll px-0'>
+      <CardBody className='mx overflow-scroll px-0'>
         <table className='mt-4 w-full min-w-max table-auto text-left'>
           <thead>
             <tr>
@@ -108,11 +123,13 @@ function AdminUsers() {
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Tooltip content='Edit User'>
-                      <IconButton variant='text' color='blue-gray'>
-                        <PencilIcon className='h-4 w-4' />
-                      </IconButton>
-                    </Tooltip>
+                    <Button
+                      size='sm'
+                      color={status == 'NonLocked' ? 'red' : 'green'}
+                      onClick={handleChangeState(index)}
+                    >
+                      {status == 'NonLocked' ? 'Lock' : 'open'}
+                    </Button>
                   </td>
                 </tr>
               )
@@ -120,7 +137,7 @@ function AdminUsers() {
           </tbody>
         </table>
       </CardBody>
-      <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4'>
+      {/* <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4'>
         <Typography variant='small' color='blue-gray' className='font-normal'>
           Page {1} of {data?.data.data.totalPages}
         </Typography>
@@ -132,7 +149,7 @@ function AdminUsers() {
             Next
           </Button>
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   )
 }

@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import Popover from '../Popover'
 import { AppContext } from 'src/contexts/app.context'
 import { clearLS } from 'src/utils/auth'
@@ -14,7 +14,13 @@ import { path } from 'src/constants/path'
 import { useTranslation } from 'react-i18next'
 import { locales } from 'src/i18n/i18n'
 
+import { Popover as PopoverUI, PopoverHandler, PopoverContent } from '@material-tailwind/react'
 function Header() {
+  const [openPopover, setOpenPopover] = React.useState(false)
+  const triggers = {
+    onMouseEnter: () => setOpenPopover(true),
+    onMouseLeave: () => setOpenPopover(false)
+  }
   const { i18n, t } = useTranslation()
   const currentLanguage = locales[i18n.language as keyof typeof locales]
   const MAX_PURCHASE = 5
@@ -33,7 +39,7 @@ function Header() {
   // }
   const { data: dataShoppingCart } = useQuery({
     queryKey: ['shoppingCart', { status: 'In Cart' }],
-    queryFn: () => ShoppingCartApi.getCartItemByStatus({ status: 1, shoppingCartId: ShoppingCartId }),
+    queryFn: () => ShoppingCartApi.getCartItemById({ shoppingCartId: ShoppingCartId }),
     enabled: isAuthenticated
   })
   const ShoppingCartItems = dataShoppingCart ? dataShoppingCart.data.data : []
@@ -178,10 +184,32 @@ function Header() {
             </button>
           </div>
         </form>
-        <Popover
-          className='m-auto'
-          renderPopover={
-            <div className='relative max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm  shadow-md'>
+        <PopoverUI open={openPopover} handler={setOpenPopover} placement='bottom-end'>
+          <PopoverHandler {...triggers} style={{ margin: 'auto' }}>
+            <NavLink to={path.Cart} className='relative items-center'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='white'
+                className='h-6 w-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
+                />
+              </svg>
+              {ShoppingCartItems && ShoppingCartItems && ShoppingCartItems.length > 0 && (
+                <span className='absolute left-[17px] top-[-5px] z-2000 rounded-full bg-white px-[9px] py-[1px] text-xs text-orange'>
+                  {ShoppingCartItems.length}
+                </span>
+              )}
+            </NavLink>
+          </PopoverHandler>
+          <PopoverContent {...triggers}>
+            <div className=' '>
               {ShoppingCartItems && ShoppingCartItems && ShoppingCartItems.length > 0 ? (
                 <div className='p-2'>
                   <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
@@ -225,30 +253,8 @@ function Header() {
                 </div>
               )}
             </div>
-          }
-        >
-          <NavLink to='/' className='relative items-center'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='white'
-              className='h-6 w-6'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
-              />
-            </svg>
-            {ShoppingCartItems && ShoppingCartItems && ShoppingCartItems.length > 0 && (
-              <span className='absolute left-[17px] top-[-5px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange'>
-                {ShoppingCartItems.length}
-              </span>
-            )}
-          </NavLink>
-        </Popover>
+          </PopoverContent>
+        </PopoverUI>
       </div>
     </header>
   )

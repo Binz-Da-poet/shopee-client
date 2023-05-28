@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { AxiosError } from 'axios'
 import { t } from 'i18next'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
@@ -43,9 +44,16 @@ function Login() {
         }
         navigate('/')
       },
-      onError: (error) => {
+      onError: (error: AxiosError | unknown) => {
+        if (error instanceof AxiosError && error.response?.status == 403) {
+          setError('email', {
+            message: 'Tài khoản này đã bị khóa',
+            type: 'Server'
+          })
+        }
         if (isAxiosUnprocessableEntityError(error)) {
           const formError = error.response?.data as ErrorResponseForm
+
           if (formError) {
             setError('email', {
               message: formError.message,

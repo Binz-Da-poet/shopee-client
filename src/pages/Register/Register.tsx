@@ -3,7 +3,7 @@ import { t } from 'i18next'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import authApi from 'src/apis/auth.api'
 import ShoppingCartApi from 'src/apis/shoppingCart.api'
 import Button from 'src/components/Button'
@@ -16,7 +16,6 @@ type FormData = Schema
 const registerSchema = schema.pick(['email', 'password', 'fullName', 'address', 'phoneNumber'])
 function Register() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
-  const navigate = useNavigate()
   const {
     register,
     setError,
@@ -39,7 +38,7 @@ function Register() {
     registerAccountMutation.mutate(data, {
       onSuccess: (dataUser) => {
         shoppingCartMutation.mutate(dataUser.data.user.userId, {
-          onSuccess: (dataCart) => {
+          onSuccess: () => {
             LoginMutation.mutate(data, {
               onSuccess: (dataLogin) => {
                 console.log(dataLogin)

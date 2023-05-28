@@ -1,176 +1,262 @@
-import classNames from 'classnames'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { useQuery } from 'react-query'
-import { Link, createSearchParams } from 'react-router-dom'
+
 import ShoppingCartApi from 'src/apis/shoppingCart.api'
 import { path } from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
+import { Tabs, TabsHeader, TabsBody, Tab, TabPanel, Avatar, Card, Typography } from '@material-tailwind/react'
 
-import useQueryParams from 'src/hook/useQueryParams'
-import { CartItem } from 'src/types/CartItem.type'
-import { formatCurrency, generateNameId } from 'src/utils/utils'
+import { ShoppingCartIcon, ClipboardDocumentCheckIcon, Square3Stack3DIcon } from '@heroicons/react/24/solid'
 
+import { formatCurrency } from 'src/utils/utils'
+
+const TABLE_HEAD = ['Sản phẩm', 'Đơn giá', 'Số lượng', 'Thành tiền']
 function HistoryPuchases() {
-  const queryParams: { status?: string } = useQueryParams()
-  const status: number | '' = Number(queryParams.status) || ''
   const { profile } = useContext(AppContext)
   const ShoppingCartId = profile?.shoppingCart.id
   const { data: dataShoppingCart } = useQuery({
     queryKey: ['shoppingCart'],
     queryFn: () => ShoppingCartApi.getShoppingCart(ShoppingCartId)
   })
-  const CartItemsData = dataShoppingCart?.data.cartItems
+  const CartItemsData = dataShoppingCart?.data
+  console.log(CartItemsData)
+  const data = [
+    {
+      label: 'Tất cả',
+      value: 'dashboard',
+      icon: Square3Stack3DIcon,
+      desc: (
+        <Card className='h-full w-full '>
+          <table className='w-full min-w-max table-auto text-left'>
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head) => (
+                  <th key={head} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4'>
+                    <Typography variant='small' color='blue-gray' className='font-normal leading-none opacity-70'>
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {CartItemsData?.cartItems?.map(({ product, quantity }, index) => {
+                const isLast = index === CartItemsData?.cartItems?.length && CartItemsData?.cartItems?.length - 1
+                const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
+
+                return (
+                  <tr key={index}>
+                    <td className={classes}>
+                      <div className='flex items-center gap-3'>
+                        <Avatar src={`${path.image}/${product.imageName}`} alt='avatar' variant='rounded' />
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {product.name}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        ₫{formatCurrency(product.discount_Price)}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        {quantity}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography as='a' href='#' variant='small' color='blue' className='font-medium'>
+                        ₫{formatCurrency(product.discount_Price * quantity)}
+                      </Typography>
+                    </td>
+                  </tr>
+                )
+              })}
+              {CartItemsData?.deliveryCarts?.map(({ product, quantity }, index) => {
+                const isLast =
+                  index === CartItemsData?.deliveryCarts?.length && CartItemsData?.deliveryCarts?.length - 1
+                const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
+
+                return (
+                  <tr key={index}>
+                    <td className={classes}>
+                      <div className='flex items-center gap-3'>
+                        <Avatar src={`${path.image}/${product.imageName}`} alt='avatar' variant='rounded' />
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {product.name}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        ₫{formatCurrency(product.discount_Price)}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        {quantity}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography as='a' href='#' variant='small' color='blue' className='font-medium'>
+                        ₫{formatCurrency(product.discount_Price * quantity)}
+                      </Typography>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </Card>
+      )
+    },
+    {
+      label: 'Đang chờ thanh toán',
+      value: 'profile',
+      icon: ShoppingCartIcon,
+      desc: (
+        <Card className='h-full w-full '>
+          <table className='w-full min-w-max table-auto text-left'>
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head) => (
+                  <th key={head} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4'>
+                    <Typography variant='small' color='blue-gray' className='font-normal leading-none opacity-70'>
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {CartItemsData?.cartItems?.map(({ product, quantity }, index) => {
+                const isLast = index === CartItemsData?.cartItems?.length && CartItemsData?.cartItems?.length - 1
+                const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
+
+                return (
+                  <tr key={index}>
+                    <td className={classes}>
+                      <div className='flex items-center gap-3'>
+                        <Avatar src={`${path.image}/${product.imageName}`} alt='avatar' variant='rounded' />
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {product.name}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        ₫{formatCurrency(product.discount_Price)}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        {quantity}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography as='a' href='#' variant='small' color='blue' className='font-medium'>
+                        ₫{formatCurrency(product.discount_Price * quantity)}
+                      </Typography>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </Card>
+      )
+    },
+    {
+      label: 'Đang giao',
+      value: 'settings',
+      icon: ClipboardDocumentCheckIcon,
+      desc: (
+        <Card className='h-full w-full '>
+          <table className='w-full min-w-max table-auto text-left'>
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head) => (
+                  <th key={head} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4'>
+                    <Typography variant='small' color='blue-gray' className='font-normal leading-none opacity-70'>
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {CartItemsData?.deliveryCarts?.map(({ product, quantity, address, fullName, phoneNumber }, index) => {
+                const isLast =
+                  index === CartItemsData?.deliveryCarts?.length && CartItemsData?.deliveryCarts?.length - 1
+                const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50'
+
+                return (
+                  <tr key={index}>
+                    <td className={classes}>
+                      <div className='flex  flex-col  gap-3'>
+                        <div className='flex'>
+                          <Avatar src={`${path.image}/${product.imageName}`} alt='avatar' variant='rounded' />
+                          <Typography variant='h5' color='blue-gray' className='flex items-center pl-2 font-normal'>
+                            {product.name}
+                          </Typography>
+                        </div>
+                        <Typography variant='small' color='blue-gray' className='font-normal opacity-90'>
+                          Người nhận : {fullName}
+                        </Typography>
+                        <Typography variant='small' color='blue-gray' className='font-normal opacity-90'>
+                          Địa chỉ : {address}
+                        </Typography>
+                        <Typography variant='small' color='blue-gray' className='font-normal opacity-90'>
+                          Số điện thoại : {phoneNumber}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        ₫{formatCurrency(product.discount_Price)}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        {quantity}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography as='a' href='#' variant='small' color='blue' className='font-medium'>
+                        ₫{formatCurrency(product.discount_Price * quantity)}
+                      </Typography>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </Card>
+      )
+    }
+  ]
 
   return (
-    <div className='h-full rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
-      <div className='sticky top-0 flex items-center rounded-t-sm shadow-sm'>
-        <Link
-          to={{
-            pathname: path.historyPuchases,
-            search: createSearchParams({
-              status: '0'
-            }).toString()
-          }}
-          className={classNames('flex flex-1 items-center justify-center border-b-2', {
-            'border-b-orange text-orange': status == 0,
-            'border-b-black/10 text-gray-900': status !== 0
-          })}
-        >
-          Tất cả
-        </Link>
-        <Link
-          to={{
-            pathname: path.historyPuchases,
-            search: createSearchParams({
-              status: '1'
-            }).toString()
-          }}
-          className={classNames('flex flex-1 items-center justify-center border-b-2', {
-            'border-b-orange text-orange': status == 1,
-            'border-b-black/10 text-gray-900': status !== 1
-          })}
-        >
-          Chờ xác nhận
-        </Link>
-        <Link
-          to={{
-            pathname: path.historyPuchases,
-            search: createSearchParams({
-              status: '2'
-            }).toString()
-          }}
-          className={classNames('flex flex-1 items-center justify-center border-b-2', {
-            'border-b-orange text-orange': status === 2,
-            'border-b-black/10 text-gray-900': status !== 2
-          })}
-        >
-          Đang giao
-        </Link>
-      </div>
-      <div>
-        {CartItemsData && CartItemsData.length > 0 ? (
-          status == 0 ? (
-            CartItemsData.map((item: CartItem) => (
-              <div key={item.id} className='mt-4 rounded-sm border-black/10 bg-white p-6 text-gray-800 shadow-sm'>
-                <Link
-                  to={`${path.home}${generateNameId({
-                    name: item.product.name,
-                    id: item.product.id
-                  })}`}
-                  className='flex'
-                >
-                  <div className='flex-shrink-0'>
-                    <img
-                      className='h-20 w-20 object-cover'
-                      src={`${path.image}/${item.product.imageName}`}
-                      alt={item.product.name}
-                    />
-                  </div>
-                  <div className='ml-3 flex-grow overflow-hidden'>
-                    <div className='truncate'>{item.product.name}</div>
-                    <div className='mt-3'>x{item.quantity}</div>
-                  </div>
-                  <div className='ml-3 flex-shrink-0'>
-                    <span className='truncate text-gray-500 line-through'>{formatCurrency(item.product.price)}</span>
-                    <span className='ml-2 truncate text-orange '>{formatCurrency(item.product.discount_Price)}</span>
-                  </div>
-                </Link>
-                <div className='flex justify-end'>
-                  <div>
-                    <span>Tổng giá tiền</span>
-                    <span className='ml-4 text-xl text-orange'>
-                      đ{formatCurrency(item.product.discount_Price * item.quantity)}
-                    </span>
-                  </div>
-                </div>
+    <div className=''>
+      <Tabs value='dashboard'>
+        <TabsHeader style={{ zIndex: 0 }}>
+          {data.map(({ label, value, icon }) => (
+            <Tab key={value} value={value}>
+              <div className='flex items-center gap-2'>
+                {React.createElement(icon, { className: 'w-5 h-5' })}
+                {label}
               </div>
-            ))
-          ) : CartItemsData.filter((item: CartItem) => item.status == status).length > 0 ? (
-            CartItemsData.filter((item: CartItem) => item.status == status).map((item: CartItem) => (
-              <div key={item.id} className='mt-4 rounded-sm border-black/10 bg-white p-6 text-gray-800 shadow-sm'>
-                <Link
-                  to={`${path.home}${generateNameId({
-                    name: item.product.name,
-                    id: item.product.id
-                  })}`}
-                  className='flex'
-                >
-                  <div className='flex-shrink-0'>
-                    <img
-                      className='h-20 w-20 object-cover'
-                      src={`${path.image}/${item.product.imageName}`}
-                      alt={item.product.name}
-                    />
-                  </div>
-                  <div className='ml-3 flex-grow overflow-hidden'>
-                    <div className='truncate'>{item.product.name}</div>
-                    <div className='mt-3'>x{item.quantity}</div>
-                  </div>
-                  <div className='ml-3 flex-shrink-0'>
-                    <span className='truncate text-gray-500 line-through'>{formatCurrency(item.product.price)}</span>
-                    <span className='ml-2 truncate text-orange '>{formatCurrency(item.product.discount_Price)}</span>
-                  </div>
-                </Link>
-                <div className='flex justify-end'>
-                  <div>
-                    <span>Tổng giá tiền</span>
-                    <span className='ml-4 text-xl text-orange'>
-                      đ{formatCurrency(item.product.discount_Price * item.quantity)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div key='null' className='mt-20'>
-              <div className='flex justify-center '>
-                <img
-                  src='https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/5fafbb923393b712b96488590b8f781f.png'
-                  alt='empty-cart'
-                />
-              </div>
-              <div className='mt-4 text-center text-gray-800'>
-                <p>Chưa có sản phẩm</p>
-              </div>
-            </div>
-          )
-        ) : (
-          <div key='null' className='mt-20'>
-            <div className='flex justify-center '>
-              <img
-                src='https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/5fafbb923393b712b96488590b8f781f.png'
-                alt='empty-cart'
-              />
-            </div>
-            <div className='mt-4 text-center text-gray-800'>
-              <p>Giỏ hàng của bạn đang trống</p>
-              <Link to={path.home} className='text-orange hover:underline'>
-                Quay lại mua sắm
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
+            </Tab>
+          ))}
+        </TabsHeader>
+        <TabsBody style={{ zIndex: 0 }}>
+          {data.map(({ value, desc }) => (
+            <TabPanel key={value} value={value}>
+              {desc}
+            </TabPanel>
+          ))}
+        </TabsBody>
+      </Tabs>
     </div>
   )
 }

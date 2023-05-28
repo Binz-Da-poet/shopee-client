@@ -12,7 +12,8 @@ export const path = {
   historyPuchases: '/user/historyPurchases',
   AdminProducts: '/AdminProducts',
   AdminUsers: '/AdminUsers',
-  AdminCategories: '/AdminCategories'
+  AdminCategories: '/AdminCategories',
+  Delivery: '/Cart/delivery'
 } as const
 export const AUTHORIZED_URLS = [
   '/FileUpload',

@@ -2,7 +2,6 @@ import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios'
 import { clearLS, getAccessTokenFromLS, setAccessTokenToLS, setProfileToLS } from './auth'
 import { AuthResponse } from 'src/types/auth.type'
 
-import { toast } from 'react-toastify'
 import { AUTHORIZED_URLS } from 'src/constants/path'
 
 class Http {
@@ -51,6 +50,7 @@ class Http {
       },
       function (error: AxiosError) {
         if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data
 
           const message = data.message || error.request.status
